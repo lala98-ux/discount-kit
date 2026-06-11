@@ -1129,10 +1129,19 @@
       .app-main { padding: 14px 14px; }
       .app-grid { grid-template-columns: 1fr; }
       .app-pg-title { font-size: 13px; }
-      .dash-kpi { gap: 5px; }
-      .dash-kpi-val { font-size: 11px; }
-      .dash-kpi-label { font-size: 8px; }
-      .dash-kpi-card { padding: 6px 8px; }
+      /* ── 대시보드 모바일 ── */
+      .app-main { overflow-x: hidden; }
+      .app-pg-title { font-size: 11.5px; }
+      .dash-header { flex-wrap: wrap; gap: 4px; }
+      .dash-kpi { grid-template-columns: repeat(3,1fr); gap: 4px; }
+      .dash-kpi-card { padding: 5px 6px; }
+      .dash-kpi-val { font-size: 9.5px; letter-spacing: -0.3px; }
+      .dash-kpi-label { font-size: 7.5px; }
+      .dash-two-col { grid-template-columns: 1fr; gap: 6px; }
+      .dash-pie-legend-item { white-space: normal; font-size: 9px; }
+      .dash-card { padding: 8px 10px; }
+      .dash-card-title { font-size: 9.5px; }
+      .dash-section-label { font-size: 9px; }
       /* 일반 섹션 */
       .pain-grid { grid-template-columns: 1fr; }
       .feature-block { grid-template-columns: 1fr; gap: 32px; }
@@ -1142,6 +1151,34 @@
       .final-cta-buttons { flex-direction: column; align-items: stretch; }
       .btn-white, .btn-ghost { text-align: center; }
       .cta-btn { min-width: 260px; width: 100%; max-width: 340px; }
+
+      /* ── Features 섹션 모바일 ── */
+      .features-list { margin-top: 36px; gap: 44px; }
+      .feature-block h3 { font-size: 20px; margin-bottom: 10px; }
+      .feature-block p { font-size: 14px; line-height: 1.7; margin-bottom: 14px; }
+      .feature-points { gap: 8px; }
+      .feature-points li { font-size: 13px; }
+      .feature-screenshot { aspect-ratio: 3/2; }
+      .preview-n1 { padding: 14px 16px; gap: 2px; }
+      .preview-header { font-size: 10.5px; padding-bottom: 8px; }
+      .preview-row { font-size: 12px; padding: 6px 0; gap: 6px; }
+      .preview-row-label { font-size: 11.5px; }
+      .preview-row-val, .preview-badge-apply, .preview-badge-free { font-size: 11px; }
+
+      /* ── 모바일 장바구니 화면 ── */
+      .app-body.result-mode { height: auto; }
+      .app-body.result-mode .app-main { overflow-y: auto; }
+      #screen-result { height: auto; }
+      .cart-layout { grid-template-columns: 1fr; overflow: visible; }
+      .cart-items-wrap { overflow: visible; }
+      .cart-item-name { word-break: keep-all; }
+      .cart-right { margin-top: 4px; }
+      .cart-summary-card { flex: none; }
+      .cart-order-btns { padding-top: 12px; }
+
+      /* ── 모바일 저장 모달 ── */
+      .save-modal { align-items: flex-end; padding-bottom: 0; }
+      .save-modal-box { width: 100%; border-radius: 20px 20px 0 0; max-height: 80vh; overflow-y: auto; padding: 28px 24px 32px; }
     }
   </style>
 </head>
@@ -2313,6 +2350,13 @@
     showScreen('screen-result', 'result');
     var toast = document.getElementById('cartToast');
     if (toast) { toast.style.animation = 'none'; void toast.offsetWidth; toast.style.animation = ''; }
+    setTimeout(function() {
+      var previewWrap = document.querySelector('.hero-preview-wrap');
+      if (previewWrap) {
+        var top = previewWrap.getBoundingClientRect().top + window.pageYOffset - 80;
+        window.scrollTo({ top: top, behavior: 'smooth' });
+      }
+    }, 120);
   });
 
 
