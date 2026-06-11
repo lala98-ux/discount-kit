@@ -1133,10 +1133,10 @@
       .app-main { overflow-x: hidden; }
       .app-pg-title { font-size: 11.5px; }
       .dash-header { flex-wrap: wrap; gap: 4px; }
-      .dash-kpi { grid-template-columns: repeat(3,1fr); gap: 4px; }
-      .dash-kpi-card { padding: 5px 6px; }
-      .dash-kpi-val { font-size: 9.5px; letter-spacing: -0.3px; }
-      .dash-kpi-label { font-size: 7.5px; }
+      .dash-kpi { grid-template-columns: repeat(3,1fr); gap: 5px; }
+      .dash-kpi-card { padding: 7px 7px; }
+      .dash-kpi-val { font-size: 11px; letter-spacing: -0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .dash-kpi-label { font-size: 8px; white-space: nowrap; }
       .dash-two-col { grid-template-columns: 1fr; gap: 6px; }
       .dash-pie-legend-item { white-space: normal; font-size: 9px; }
       .dash-card { padding: 8px 10px; }
@@ -1151,6 +1151,14 @@
       .final-cta-buttons { flex-direction: column; align-items: stretch; }
       .btn-white, .btn-ghost { text-align: center; }
       .cta-btn { min-width: 260px; width: 100%; max-width: 340px; }
+
+      /* 새 프로모션 추가 버튼 — 모바일 터치 유도 */
+      @keyframes addBtnPulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(108,62,244,0.35); border-color: #A78BFA; }
+        50%       { box-shadow: 0 0 0 6px rgba(108,62,244,0); border-color: #6C3EF4; }
+      }
+      .app-card-add { border-color: #A78BFA; background: rgba(108,62,244,0.06); animation: addBtnPulse 2s ease-in-out infinite; }
+      .app-card-add .app-add-circle { transform: rotate(90deg) scale(1.25); }
 
       /* ── Features 섹션 모바일 ── */
       .features-list { margin-top: 36px; gap: 44px; }
