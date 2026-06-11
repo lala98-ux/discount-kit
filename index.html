@@ -88,7 +88,7 @@
 
     /* ── HERO ── */
     .hero {
-      padding: 96px 40px 48px;
+      padding: 60px 40px 48px;
       text-align: center;
       background: linear-gradient(180deg, var(--bg-subtle) 0%, #fff 100%);
       position: relative;
@@ -198,13 +198,30 @@
 
     /* ── 히어로 앱 목업 ── */
     .hero-preview-wrap {
-      margin-top: 28px;
+      margin-top: 40px;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 14px;
-      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath d='M3 1L3 16L6.5 12.5L9 18.5L11.5 17.5L9 11.5L14 11.5Z' fill='%236C3EF4' stroke='white' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 3 1, pointer;
+      cursor: none;
     }
+    .hero-preview-wrap, .hero-preview-wrap *,
+    .hero-preview-wrap button, .hero-preview-wrap a,
+    .hero-preview-wrap [role="button"] {
+      cursor: none !important;
+    }
+
+    /* ── 커스텀 커서 ── */
+    #custom-cursor {
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 99999;
+      visibility: hidden;
+    }
+    #custom-cursor img { display: block; width: 72px; height: auto; mix-blend-mode: multiply; }
+    #custom-cursor.active { visibility: visible; }
+    @media (hover: none) { #custom-cursor { display: none; } }
     .hero-visual {
       width: 100%;
       max-width: 1000px;
@@ -293,16 +310,24 @@
     .app-card-add:hover { border-color: #6C3EF4; background: rgba(108,62,244,0.06); transform: scale(1.02); }
     .app-add-circle { transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
     .app-card-add:hover .app-add-circle { transform: rotate(90deg) scale(1.25); }
-    .hero-preview-hint {
-      font-size: 13px;
-      color: var(--muted);
-      text-align: center;
-      transition: color 0.2s, transform 0.2s;
-      position: relative;
-      z-index: 1;
+    @keyframes hintFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
     }
-    .hero-preview-wrap:hover .hero-preview-hint {
-      transform: translateY(4px);
+    .hero-preview-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--brand);
+      background: rgba(108,62,244,0.08);
+      border: 1.5px solid rgba(108,62,244,0.22);
+      border-radius: 40px;
+      padding: 10px 24px;
+      margin-bottom: 8px;
+      animation: hintFloat 2.4s ease-in-out infinite;
+      letter-spacing: -0.2px;
     }
     .app-main {
       flex: 1;
@@ -677,7 +702,7 @@
     section { padding: 96px 40px; }
     .section-inner { max-width: 1100px; margin: 0 auto; }
     .section-label {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 700;
       color: var(--brand);
       text-transform: uppercase;
@@ -754,7 +779,7 @@
       display: inline-block;
       background: var(--brand-light);
       color: var(--brand);
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 700;
       padding: 4px 12px;
       border-radius: 20px;
@@ -820,7 +845,7 @@
       gap: 12px;
     }
     .preview-header {
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 700;
       color: var(--brand);
       padding-bottom: 10px;
@@ -830,7 +855,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 13px;
+      font-size: 14px;
       padding: 10px 0;
       border-bottom: 1px solid var(--border);
       gap: 8px;
@@ -914,14 +939,14 @@
       transform: translateX(-50%);
       background: var(--brand);
       color: #fff;
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 700;
       padding: 4px 16px;
       border-radius: 20px;
       white-space: nowrap;
     }
     .pricing-type {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 700;
       color: var(--muted);
       margin-bottom: 12px;
@@ -945,7 +970,7 @@
       margin-top: 4px;
     }
     .pricing-monthly {
-      font-size: 13px;
+      font-size: 14px;
       color: var(--brand);
       font-weight: 600;
       margin-top: 4px;
@@ -997,7 +1022,7 @@
     .pricing-cta.outline:hover { background: var(--brand-light); }
     .pricing-note {
       margin-top: 20px;
-      font-size: 12px;
+      font-size: 14px;
       color: var(--muted);
       line-height: 1.7;
     }
@@ -1074,7 +1099,7 @@
       color: rgba(255,255,255,0.3);
       margin-left: 8px;
     }
-    .footer-text { font-size: 13px; }
+    .footer-text { font-size: 14px; }
 
     /* ── ANIMATIONS ── */
     @keyframes fadeUp {
@@ -1111,8 +1136,7 @@
       .hero-sub { font-size: 15px; }
       .hero-preview-wrap { cursor: default; }
       .hero-visual { max-width: 100%; }
-      .hero-preview-hint { order: -1; margin-bottom: 4px; }
-      .hero-preview-wrap:hover .hero-preview-hint { transform: translateY(-4px); }
+      .hero-preview-hint { font-size: 13px; padding: 8px 18px; margin-bottom: 12px; }
       /* 앱 목업 — 상단 탭바 레이아웃 */
       .app-body { flex-direction: column; height: auto; min-height: 360px; }
       .app-sidebar {
@@ -1171,7 +1195,8 @@
       .preview-header { font-size: 10.5px; padding-bottom: 8px; }
       .preview-row { font-size: 12px; padding: 6px 0; gap: 6px; }
       .preview-row-label { font-size: 11.5px; }
-      .preview-row-val, .preview-badge-apply, .preview-badge-free { font-size: 11px; }
+      .preview-row-val, .preview-badge-apply, .preview-badge-free { font-size: 12px; }
+      .preview-row-label { font-size: 12px; }
 
       /* ── 모바일 장바구니 화면 ── */
       .app-body.result-mode { height: auto; }
@@ -1229,6 +1254,7 @@
 
   <!-- 히어로 앱 목업 -->
   <div class="hero-preview-wrap fade-up delay-4">
+    <p class="hero-preview-hint">👆 앱을 직접 체험해보세요</p>
     <div class="hero-visual">
     <div class="app-wrap">
       <div class="app-bar">
@@ -1783,7 +1809,6 @@
       </div>
     </div>
     </div>
-    <p class="hero-preview-hint">👆 앱을 직접 체험해보세요</p>
   </div>
 </section>
 
@@ -2359,10 +2384,12 @@
     var toast = document.getElementById('cartToast');
     if (toast) { toast.style.animation = 'none'; void toast.offsetWidth; toast.style.animation = ''; }
     setTimeout(function() {
-      var previewWrap = document.querySelector('.hero-preview-wrap');
-      if (previewWrap) {
-        var top = previewWrap.getBoundingClientRect().top + window.pageYOffset - 80;
-        window.scrollTo({ top: top, behavior: 'smooth' });
+      if (window.innerWidth <= 768) {
+        var previewWrap = document.querySelector('.hero-preview-wrap');
+        if (previewWrap) {
+          var top = previewWrap.getBoundingClientRect().top + window.pageYOffset - 80;
+          window.scrollTo({ top: top, behavior: 'smooth' });
+        }
       }
     }, 120);
   });
@@ -2384,6 +2411,44 @@
     el.style.transition = 'opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1)';
     observer.observe(el);
   });
+</script>
+
+<!-- 커스텀 커서 -->
+<div id="custom-cursor">
+  <img src="KakaoTalk_20260611_173007620_01.png" width="72" height="72" alt="" draggable="false">
+</div>
+
+<script>
+(function() {
+  var cursor = document.getElementById('custom-cursor');
+  var previewWrap = document.querySelector('.hero-preview-wrap');
+  if (!cursor || !previewWrap) return;
+
+  var cx = 0, cy = 0, clicking = false;
+
+  function applyTransform() {
+    cursor.style.transform = 'translate(' + (cx - 13) + 'px,' + (cy - 4) + 'px)' + (clicking ? ' scale(0.88)' : '');
+  }
+
+  previewWrap.addEventListener('mouseenter', function(e) {
+    cx = e.clientX; cy = e.clientY;
+    applyTransform();
+    cursor.classList.add('active');
+  });
+  previewWrap.addEventListener('mousemove', function(e) {
+    cx = e.clientX; cy = e.clientY;
+    applyTransform();
+  });
+  previewWrap.addEventListener('mouseleave', function() {
+    cursor.classList.remove('active');
+  });
+  previewWrap.addEventListener('mousedown', function() {
+    clicking = true; applyTransform();
+  });
+  document.addEventListener('mouseup', function() {
+    clicking = false; applyTransform();
+  });
+})();
 </script>
 
 </body>
