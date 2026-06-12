@@ -109,7 +109,7 @@
       gap: 6px;
       background: var(--brand-light);
       color: var(--brand);
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 600;
       padding: 6px 16px;
       border-radius: 20px;
@@ -192,7 +192,7 @@
 
     .hero-note {
       margin-top: 16px;
-      font-size: 13px;
+      font-size: 14px;
       color: var(--muted);
     }
 
@@ -203,11 +203,10 @@
       flex-direction: column;
       align-items: center;
       gap: 14px;
-      cursor: none;
     }
-    .hero-preview-wrap, .hero-preview-wrap *,
-    .hero-preview-wrap button, .hero-preview-wrap a,
-    .hero-preview-wrap [role="button"] {
+    .hero-visual, .hero-visual *,
+    .hero-visual button, .hero-visual a,
+    .hero-visual [role="button"] {
       cursor: none !important;
     }
 
@@ -718,7 +717,7 @@
       margin-bottom: 16px;
     }
     .section-sub {
-      font-size: 16px;
+      font-size: 18px;
       color: var(--body);
       max-width: 520px;
       line-height: 1.7;
@@ -794,7 +793,7 @@
       margin-bottom: 16px;
     }
     .feature-block p {
-      font-size: 15px;
+      font-size: 16px;
       color: var(--body);
       line-height: 1.8;
       margin-bottom: 24px;
@@ -1094,7 +1093,7 @@
       color: rgba(255,255,255,0.9);
     }
     .footer-logo small {
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 400;
       color: rgba(255,255,255,0.3);
       margin-left: 8px;
@@ -1254,7 +1253,7 @@
 
   <!-- 히어로 앱 목업 -->
   <div class="hero-preview-wrap fade-up delay-4">
-    <p class="hero-preview-hint">👆 앱을 직접 체험해보세요</p>
+    <p class="hero-preview-hint">👇 앱을 직접 체험해보세요</p>
     <div class="hero-visual">
     <div class="app-wrap">
       <div class="app-bar">
@@ -2421,8 +2420,9 @@
 <script>
 (function() {
   var cursor = document.getElementById('custom-cursor');
-  var previewWrap = document.querySelector('.hero-preview-wrap');
-  if (!cursor || !previewWrap) return;
+  var heroVisual = document.querySelector('.hero-visual');
+  if (!cursor || !heroVisual) return;
+  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
 
   var cx = 0, cy = 0, clicking = false;
 
@@ -2430,19 +2430,19 @@
     cursor.style.transform = 'translate(' + (cx - 13) + 'px,' + (cy - 4) + 'px)' + (clicking ? ' scale(0.88)' : '');
   }
 
-  previewWrap.addEventListener('mouseenter', function(e) {
+  heroVisual.addEventListener('mouseenter', function(e) {
     cx = e.clientX; cy = e.clientY;
     applyTransform();
     cursor.classList.add('active');
   });
-  previewWrap.addEventListener('mousemove', function(e) {
+  heroVisual.addEventListener('mousemove', function(e) {
     cx = e.clientX; cy = e.clientY;
     applyTransform();
   });
-  previewWrap.addEventListener('mouseleave', function() {
+  heroVisual.addEventListener('mouseleave', function() {
     cursor.classList.remove('active');
   });
-  previewWrap.addEventListener('mousedown', function() {
+  heroVisual.addEventListener('mousedown', function() {
     clicking = true; applyTransform();
   });
   document.addEventListener('mouseup', function() {
