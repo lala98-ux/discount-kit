@@ -34,6 +34,7 @@
       background: var(--bg);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
     /* ── NAV ── */
@@ -722,9 +723,12 @@
       max-width: 520px;
       line-height: 1.7;
     }
+    .feat-section .section-sub { max-width: none; white-space: nowrap; }
+    .mob-br { display: none; }
 
     /* ── PAIN POINTS ── */
     .pain { background: var(--bg-subtle); }
+    .pain-indicators { display: none; }
     .pain-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -738,10 +742,12 @@
       padding: 32px 28px;
       transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
     }
-    .pain-card:hover {
-      border-color: var(--brand-mid);
-      box-shadow: 0 8px 32px rgba(108,62,244,0.1);
-      transform: translateY(-4px);
+    @media (hover: hover) and (pointer: fine) {
+      .pain-card:hover {
+        border-color: var(--brand-mid);
+        box-shadow: 0 8px 32px rgba(108,62,244,0.1);
+        transform: translateY(-4px);
+      }
     }
     .pain-icon {
       width: 48px; height: 48px;
@@ -766,6 +772,38 @@
 
     /* ── FEATURES ── */
     .features-list { margin-top: 72px; display: flex; flex-direction: column; gap: 80px; }
+
+    /* ── FEATURE TABS ── */
+    .feat-tabs {
+      display: flex;
+      border-bottom: 2px solid var(--border);
+      margin-top: 56px;
+      gap: 0;
+    }
+    .feat-tab {
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      padding: 14px 32px;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--muted);
+      cursor: pointer;
+      margin-bottom: -2px;
+      transition: color 0.2s, border-color 0.2s;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+    .feat-tab:hover { color: var(--dark); }
+    .feat-tab.active { color: var(--brand); border-bottom-color: var(--brand); }
+    .feat-panels { margin-top: 56px; }
+    .feat-panel { display: none; }
+    .feat-panel.active {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
     .feature-block {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -782,23 +820,23 @@
       font-weight: 700;
       padding: 4px 12px;
       border-radius: 20px;
-      margin-bottom: 16px;
+      margin-bottom: 28px;
     }
-    .feature-block h3 {
+    .feature-block h3, .feature-content h3 {
       font-size: 28px;
       font-weight: 800;
       color: var(--dark);
       letter-spacing: -0.5px;
       line-height: 1.3;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
-    .feature-block p {
+    .feature-block p, .feature-content p {
       font-size: 16px;
       color: var(--body);
-      line-height: 1.8;
-      margin-bottom: 24px;
+      line-height: 1.9;
+      margin-bottom: 36px;
     }
-    .feature-points { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .feature-points { list-style: none; display: flex; flex-direction: column; gap: 16px; }
     .feature-points li {
       display: flex;
       align-items: flex-start;
@@ -879,6 +917,72 @@
       border-radius: 6px;
     }
 
+    /* ── PREVIEW FLOW ── */
+    .preview-flow {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      border: 1.5px solid var(--border);
+      box-shadow: 0 4px 24px rgba(108,62,244,0.07);
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      min-height: 320px;
+      justify-content: center;
+    }
+    .flow-step {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding-bottom: 24px;
+      position: relative;
+    }
+    .flow-step:last-child { padding-bottom: 0; }
+    .flow-step:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      left: 19px;
+      top: calc(50% + 20px);
+      bottom: 0;
+      width: 2px;
+      background: var(--border);
+      z-index: 0;
+    }
+    .flow-icon-wrap {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--brand-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      line-height: 1;
+      padding-bottom: 2px;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+    .flow-step.result .flow-icon-wrap { background: var(--brand); }
+    .flow-body { flex: 1; padding-top: 2px; }
+    .flow-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .flow-desc {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--dark);
+      line-height: 1.5;
+    }
+    .flow-step.result .flow-desc { color: var(--brand); }
+    .feat-panel .feature-screenshot {
+      background: none;
+      border: none;
+      aspect-ratio: auto;
+      padding: 0;
+    }
+
     /* ── STATS ── */
     .stats { background: var(--dark); }
     .stats-grid {
@@ -923,8 +1027,10 @@
       padding: 36px 32px;
       position: relative;
       transition: border-color 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
     }
-    .pricing-card:hover {
+    .pricing-card.featured:hover {
       border-color: var(--brand);
       box-shadow: 0 8px 40px rgba(108,62,244,0.12);
     }
@@ -977,9 +1083,9 @@
     .pricing-divider {
       height: 1px;
       background: var(--border);
-      margin: 24px 0;
+      margin: 32px 0;
     }
-    .pricing-features { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .pricing-features { list-style: none; display: flex; flex-direction: column; gap: 16px; margin-bottom: 28px; }
     .pricing-features li {
       display: flex;
       align-items: center;
@@ -998,7 +1104,8 @@
     .pricing-cta {
       display: block;
       width: 100%;
-      margin-top: 28px;
+      margin-top: auto;
+      padding-top: 36px;
       background: var(--brand);
       color: #fff;
       border: none;
@@ -1033,7 +1140,7 @@
       text-align: center;
     }
     .final-cta .section-title { color: #fff; }
-    .final-cta .section-sub { color: rgba(255,255,255,0.75); max-width: 480px; margin: 0 auto 40px; }
+    .final-cta .section-sub { color: rgba(255,255,255,0.75); max-width: none; margin: 0 auto 40px; white-space: nowrap; }
     .final-cta-buttons {
       display: flex;
       align-items: center;
@@ -1128,6 +1235,9 @@
 
     /* ── MOBILE (≤ 768px) ── */
     @media (max-width: 768px) {
+      .section-sub { font-size: 15px; }
+      .feat-section .section-sub { white-space: normal; }
+      .mob-br { display: block; }
       section { padding: 64px 24px; }
       .nav { padding: 0 20px; }
       .nav-cta { font-size: 12px; padding: 8px 14px; }
@@ -1166,11 +1276,53 @@
       .dash-card-title { font-size: 9.5px; }
       .dash-section-label { font-size: 9px; }
       /* 일반 섹션 */
-      .pain-grid { grid-template-columns: 1fr; }
+      .pain-carousel-wrap {
+        overflow-x: scroll;
+        scroll-snap-type: x mandatory;
+        scroll-padding-left: 24px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        margin: 0 -24px;
+        padding: 4px 24px 12px;
+      }
+      .pain-carousel-wrap::-webkit-scrollbar { display: none; }
+      .pain-grid {
+        display: flex;
+        gap: 14px;
+        width: max-content;
+        margin-top: 20px;
+      }
+      .pain-card {
+        width: calc(100vw - 72px);
+        flex-shrink: 0;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+        height: auto;
+      }
+      .pain-indicators {
+        display: flex;
+        justify-content: center;
+        gap: 7px;
+        margin-top: 16px;
+      }
+      .pain-dot {
+        width: 8px; height: 8px;
+        border-radius: 50%;
+        background: #D1CBEF;
+        transition: background 0.25s, width 0.25s, border-radius 0.25s;
+        transform: translateZ(0);
+        will-change: width, border-radius;
+      }
+      .pain-dot.active {
+        background: var(--brand);
+        width: 22px;
+        border-radius: 4px;
+      }
       .feature-block { grid-template-columns: 1fr; gap: 32px; }
       .feature-block.reverse { direction: ltr; }
       .stats-grid { grid-template-columns: 1fr; }
-      .pricing-grid { grid-template-columns: 1fr; max-width: 100%; }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 100%; width: 100%; }
+      .final-cta .section-sub { white-space: normal; }
       .final-cta-buttons { flex-direction: column; align-items: stretch; }
       .btn-white, .btn-ghost { text-align: center; }
       .cta-btn { min-width: 260px; width: 100%; max-width: 340px; }
@@ -1185,10 +1337,15 @@
 
       /* ── Features 섹션 모바일 ── */
       .features-list { margin-top: 36px; gap: 44px; }
-      .feature-block h3 { font-size: 20px; margin-bottom: 10px; }
-      .feature-block p { font-size: 14px; line-height: 1.7; margin-bottom: 14px; }
+      .feature-block h3, .feature-content h3 { font-size: 20px; margin-bottom: 16px; }
+      .feature-block p, .feature-content p { font-size: 14px; line-height: 1.7; margin-bottom: 24px; }
       .feature-points { gap: 8px; }
       .feature-points li { font-size: 13px; }
+      .feat-tabs { overflow-x: auto; scrollbar-width: none; margin-top: 36px; }
+      .feat-tabs::-webkit-scrollbar { display: none; }
+      .feat-tab { padding: 12px 20px; font-size: 14px; }
+      .feat-panels { margin-top: 32px; }
+      .feat-panel.active { grid-template-columns: 1fr; gap: 32px; }
       .feature-screenshot { aspect-ratio: 3/2; }
       .preview-n1 { padding: 14px 16px; gap: 2px; }
       .preview-header { font-size: 10.5px; padding-bottom: 8px; }
@@ -1817,45 +1974,55 @@
     <div class="section-label">이런 경험 있으신가요</div>
     <h2 class="section-title">카페24 운영자라면<br/>한 번쯤 겪어봤을 상황</h2>
 
-    <div class="pain-grid">
-      <div class="pain-card">
-        <div class="pain-icon">🛒</div>
-        <h3>N+1 행사 하나 설정하려고<br/>개발자를 불렀던 적 있으신가요?</h3>
-        <p>카페24 기본 기능으로는 N+1 프로모션 설정이 불가능합니다. 결국 포기하거나 개발 비용을 써야 했습니다.</p>
+    <div class="pain-carousel-wrap">
+      <div class="pain-grid" id="painGrid">
+        <div class="pain-card">
+          <div class="pain-icon">🛒</div>
+          <h3>N+1 행사 하나 설정하려고<br/>개발자를 불렀던 적 있으신가요?</h3>
+          <p>카페24에 없는 N+1 프로모션을, 개발자 없이 클릭 몇 번으로 직접 설정할 수 있습니다. 지금 내 쇼핑몰에서 바로 시작하세요.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-icon">⚡</div>
+          <h3>재고가 줄었는데 프로모션을<br/>즉시 수정할 수 없으셨던 적 있으신가요?</h3>
+          <p>할인킷은 재고 상황에 맞게 프로모션 조건을 실시간으로 수정할 수 있습니다. 수정된 정책은 저장 즉시 쇼핑몰에 반영됩니다.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-icon">🎯</div>
+          <h3>특정 카테고리만 묶어서<br/>할인을 걸고 싶었는데 방법이 없었나요?</h3>
+          <p>브랜드·카테고리·상품군 단위로 원하는 상품에만 할인 범위를 정확하게 지정할 수 있습니다. 불필요한 할인 없이 딱 필요한 곳에만 적용하세요.</p>
+        </div>
       </div>
-      <div class="pain-card">
-        <div class="pain-icon">⚡</div>
-        <h3>재고가 줄었는데 프로모션을<br/>즉시 수정할 수 없어 발을 구른 적?</h3>
-        <p>프로모션 정책을 빠르게 바꾸지 못해 재고 부담이 생기거나 기회를 놓친 경험, 할인킷이 해결합니다.</p>
-      </div>
-      <div class="pain-card">
-        <div class="pain-icon">🎯</div>
-        <h3>특정 카테고리만 묶어서<br/>할인을 걸고 싶었는데 방법이 없었나요?</h3>
-        <p>브랜드별, 카테고리별, 상품별로 세밀하게 프로모션 범위를 지정하는 것은 카페24 기본 기능의 한계입니다.</p>
-      </div>
+    </div>
+    <div class="pain-indicators" id="painIndicators">
+      <span class="pain-dot active"></span>
+      <span class="pain-dot"></span>
+      <span class="pain-dot"></span>
     </div>
   </div>
 </section>
 
 <!-- ── FEATURES ── -->
-<section>
+<section class="feat-section">
   <div class="section-inner">
     <div class="section-label">핵심 기능</div>
     <h2 class="section-title">할인킷만 할 수 있는<br/>프로모션 기능</h2>
-    <p class="section-sub">카페24 기본 앱에서 제공하지 않는 기능을 할인킷이 채웁니다.</p>
+    <p class="section-sub">카페24 기본 기능으로는 부족했던<br class="mob-br"/> 프로모션, 이제 할인킷으로 해결하세요.</p>
 
-    <div class="features-list">
+    <div class="feat-tabs">
+      <button class="feat-tab active" data-tab="0">N+1 할인</button>
+      <button class="feat-tab" data-tab="1">수량 조건부 할인</button>
+      <button class="feat-tab" data-tab="2">실시간 정책 변경</button>
+    </div>
 
-      <!-- 기능 1: N+1 할인 -->
-      <div class="feature-block">
+    <div class="feat-panels">
+      <!-- 패널 0: N+1 할인 -->
+      <div class="feat-panel active" data-panel="0">
         <div class="feature-content">
           <span class="feature-tag">카페24 독점 기능</span>
           <h3>N+1 할인 —<br/>조건부 상품 증정</h3>
-          <p>
-            지정한 상품을 N개 구매하면 동일 상품 1개를 자동으로 증정합니다.
-            카테고리, 브랜드, 개별 상품 단위로 자유롭게 조합할 수 있어
-            편의점 1+1 행사를 내 쇼핑몰에서 그대로 구현합니다.
-          </p>
+          <p>지정한 상품을 N개 구매하면 동일 상품 1개를 자동으로 증정합니다.
+          카테고리, 브랜드, 개별 상품 단위로 자유롭게 조합할 수 있어
+          편의점 1+1 행사를 내 쇼핑몰에서 그대로 구현합니다.</p>
           <ul class="feature-points">
             <li>설정한 상품군 내 자유로운 교차 조합 지원</li>
             <li>장바구니·주문 페이지에 프로모션 사유 자동 노출</li>
@@ -1863,42 +2030,40 @@
           </ul>
         </div>
         <div class="feature-screenshot">
-          <div class="preview-n1">
-            <div class="preview-header">N+1 할인 설정 — 여름 시즌 행사</div>
-            <div class="preview-row">
-              <span class="preview-row-label">프로모션 유형</span>
-              <span class="preview-badge-apply">N+1 할인</span>
+          <div class="preview-flow">
+            <div class="flow-step">
+              <div class="flow-icon-wrap">🛒</div>
+              <div class="flow-body">
+                <div class="flow-label">고객 행동</div>
+                <div class="flow-desc">프로모션이 적용된<br/>상품 3개 장바구니에 담기</div>
+              </div>
             </div>
-            <div class="preview-row">
-              <span class="preview-row-label">적용 상품</span>
-              <span class="preview-row-val">여름 의류 카테고리</span>
+            <div class="flow-step">
+              <div class="flow-icon-wrap">⚡</div>
+              <div class="flow-body">
+                <div class="flow-label">할인킷 감지</div>
+                <div class="flow-desc">2+1 조건 충족 자동 인식</div>
+              </div>
             </div>
-            <div class="preview-row">
-              <span class="preview-row-label">구매 조건</span>
-              <span class="preview-row-val">3개 이상 구매 시</span>
-            </div>
-            <div class="preview-row">
-              <span class="preview-row-label">증정 상품</span>
-              <span class="preview-row-val">동일 상품 1개</span>
-            </div>
-            <div class="preview-row">
-              <span class="preview-row-label">고객 혜택</span>
-              <span class="preview-badge-free">1개 무료 증정</span>
+            <div class="flow-step result">
+              <div class="flow-icon-wrap">🎁</div>
+              <div class="flow-body">
+                <div class="flow-label">결과</div>
+                <div class="flow-desc">상품 1개 자동 할인<br/>2+1 할인 적용</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- 기능 2: 수량 조건부 할인 -->
-      <div class="feature-block reverse">
+      <!-- 패널 1: 수량 조건부 할인 -->
+      <div class="feat-panel" data-panel="1">
         <div class="feature-content">
           <span class="feature-tag">전략적 할인 설계</span>
           <h3>수량 조건부 할인 —<br/>객단가를 높이는 구조</h3>
-          <p>
-            N개 이상 구매 시 금액 또는 퍼센트 할인을 자동 적용합니다.
-            특정 카테고리, 브랜드, 상품군에 마케팅 목적에 맞게
-            할인 범위를 세밀하게 설정할 수 있습니다.
-          </p>
+          <p>N개 이상 구매 시 금액·퍼센트 할인을 자동 적용합니다.
+          카테고리·브랜드·상품군 단위로 할인 범위를 세밀하게 설정해
+          객단가를 높이는 전략을 손쉽게 운영합니다.</p>
           <ul class="feature-points">
             <li>금액 할인(원) · 비율 할인(%) 선택 적용</li>
             <li>상품 / 카테고리 / 브랜드 단위 범위 지정</li>
@@ -1906,42 +2071,40 @@
           </ul>
         </div>
         <div class="feature-screenshot">
-          <div class="preview-n1">
-            <div class="preview-header">수량 조건부 할인 — 대량 구매 이벤트</div>
-            <div class="preview-row">
-              <span class="preview-row-label">프로모션 유형</span>
-              <span class="preview-badge-apply">수량 조건부</span>
+          <div class="preview-flow">
+            <div class="flow-step">
+              <div class="flow-icon-wrap">🛒</div>
+              <div class="flow-body">
+                <div class="flow-label">고객 행동</div>
+                <div class="flow-desc">프로모션이 적용된 상품<br/>5개 이상 장바구니에 담기</div>
+              </div>
             </div>
-            <div class="preview-row">
-              <span class="preview-row-label">적용 상품</span>
-              <span class="preview-row-val">전체 상품</span>
+            <div class="flow-step">
+              <div class="flow-icon-wrap">⚡</div>
+              <div class="flow-body">
+                <div class="flow-label">할인킷 감지</div>
+                <div class="flow-desc">수량 조건(5개 이상 구매 시 10% 할인)<br/>충족 자동 인식</div>
+              </div>
             </div>
-            <div class="preview-row">
-              <span class="preview-row-label">구매 조건</span>
-              <span class="preview-row-val">5개 이상 구매 시</span>
-            </div>
-            <div class="preview-row">
-              <span class="preview-row-label">할인율</span>
-              <span class="preview-row-val">10% 즉시 할인</span>
-            </div>
-            <div class="preview-row">
-              <span class="preview-row-label">고객 혜택</span>
-              <span class="preview-badge-free">10% 할인 적용</span>
+            <div class="flow-step result">
+              <div class="flow-icon-wrap">💸</div>
+              <div class="flow-body">
+                <div class="flow-label">결과</div>
+                <div class="flow-desc">결제 금액에서 10% 즉시 할인<br/>자동 적용</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- 기능 3: 실시간 정책 변경 -->
-      <div class="feature-block">
+      <!-- 패널 2: 실시간 정책 변경 -->
+      <div class="feat-panel" data-panel="2">
         <div class="feature-content">
           <span class="feature-tag">운영 편의성</span>
           <h3>실시간 정책 변경 —<br/>유동적인 프로모션 운영</h3>
-          <p>
-            재고 상황이나 판매 추이에 따라 프로모션 조건을 즉시 수정합니다.
-            별도 개발 없이 설정 화면에서 직접 변경할 수 있어
-            빠른 의사결정을 그대로 실행에 옮길 수 있습니다.
-          </p>
+          <p>재고 상황이나 판매 추이에 따라 프로모션 조건을 즉시 수정합니다.
+          별도 개발 없이 설정 화면에서 직접 변경할 수 있어
+          빠른 의사결정을 그대로 실행에 옮길 수 있습니다.</p>
           <ul class="feature-points">
             <li>저장 즉시 쇼핑몰에 실시간 반영</li>
             <li>프로모션 기간 · 조건 · 대상 즉시 수정</li>
@@ -1949,28 +2112,31 @@
           </ul>
         </div>
         <div class="feature-screenshot">
-          <div class="preview-n1">
-            <div class="preview-header">실시간 정책 변경 — 재고 소진 대응</div>
-            <div class="preview-row">
-              <span class="preview-row-label">현재 재고 상태</span>
-              <span class="preview-row-val" style="color:#F59E0B;">⚠ 잔여 12개</span>
+          <div class="preview-flow">
+            <div class="flow-step">
+              <div class="flow-icon-wrap">⚠️</div>
+              <div class="flow-body">
+                <div class="flow-label">상황 발생</div>
+                <div class="flow-desc">재고 잔여 12개 — 소진 위기</div>
+              </div>
             </div>
-            <div class="preview-row">
-              <span class="preview-row-label">프로모션 상태</span>
-              <span class="preview-badge-apply">진행 중</span>
+            <div class="flow-step">
+              <div class="flow-icon-wrap">✏️</div>
+              <div class="flow-body">
+                <div class="flow-label">운영자 대응</div>
+                <div class="flow-desc">구매 조건 3개 → 2개로<br/>설정 화면에서 즉시 수정</div>
+              </div>
             </div>
-            <div class="preview-row">
-              <span class="preview-row-label">구매 조건 변경</span>
-              <span class="preview-row-val">3개 → 2개</span>
-            </div>
-            <div class="preview-row">
-              <span class="preview-row-label">반영 시간</span>
-              <span class="preview-badge-free">즉시 반영</span>
+            <div class="flow-step result">
+              <div class="flow-icon-wrap">✅</div>
+              <div class="flow-body">
+                <div class="flow-label">결과</div>
+                <div class="flow-desc">변경 즉시 쇼핑몰 반영<br/>프로모션 중단 없이 지속</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </section>
@@ -2007,7 +2173,8 @@
       <div class="pricing-card">
         <div class="pricing-type">월간 구독</div>
         <div class="pricing-price">50,000<span>원 / 월</span></div>
-        <div style="height:32px;"></div>
+        <div class="pricing-original" style="visibility:hidden">정가 000,000원</div>
+        <div class="pricing-monthly" style="visibility:hidden">월 00,000원으로 이용</div>
         <div class="pricing-divider"></div>
         <ul class="pricing-features">
           <li><span class="check">✓</span> N+1 할인 무제한 설정</li>
@@ -2031,7 +2198,7 @@
 <section class="final-cta">
   <div class="section-inner" style="text-align:center;">
     <h2 class="section-title">지금 바로 프로모션을<br/>시작할 준비가 됐나요?</h2>
-    <p class="section-sub">카페24 앱스토어에서 설치하고 오늘부터 N+1 행사를 운영하세요.</p>
+    <p class="section-sub">카페24 앱스토어에서 설치하고<br class="mob-br"/> 오늘부터 N+1 행사를 운영하세요.</p>
     <div class="final-cta-buttons">
       <a href="https://store.cafe24.com/kr/apps/31993" class="btn-white">카페24 앱스토어에서 설치하기</a>
       <a href="https://store.cafe24.com/kr/apps/31993" class="btn-ghost">요금제 자세히 보기</a>
@@ -2103,12 +2270,13 @@
   function setupDiscountObserver() {
     if (discountObserver) discountObserver.disconnect();
     discountAnimDone = false;
-    var appMain = document.querySelector('.app-main');
+    var isMob = window.innerWidth <= 768;
+    var appMain = isMob ? null : document.querySelector('.app-main');
     var sec = document.getElementById('sectionDiscount');
     if (!sec) return;
     discountObserver = new IntersectionObserver(function(entries) {
       entries.forEach(function(e) { if (e.isIntersecting) { discountObserver.disconnect(); triggerDiscountAnimation(); } });
-    }, { root: appMain, threshold: 0.4 });
+    }, { root: appMain, threshold: isMob ? 0.2 : 0.4 });
     discountObserver.observe(sec);
   }
   function setPromoType(type) {
@@ -2178,10 +2346,11 @@
   function setupProductObserver() {
     if (productObserver) productObserver.disconnect();
     productAnimDone = false;
-    var appMain = document.querySelector('.app-main');
+    var isMob = window.innerWidth <= 768;
+    var appMain = isMob ? null : document.querySelector('.app-main');
     productObserver = new IntersectionObserver(function(entries) {
       entries.forEach(function(e) { if (e.isIntersecting) { productObserver.disconnect(); triggerProductAnimation(); } });
-    }, { root: appMain, threshold: 0.5 });
+    }, { root: appMain, threshold: isMob ? 0.2 : 0.5 });
     productObserver.observe(document.getElementById('sectionProduct'));
   }
 
@@ -2208,12 +2377,13 @@
   function setupN1Observer() {
     if (n1Observer) n1Observer.disconnect();
     n1AnimDone = false;
-    var appMain = document.querySelector('.app-main');
+    var isMob = window.innerWidth <= 768;
+    var appMain = isMob ? null : document.querySelector('.app-main');
     var sectionN1 = document.getElementById('sectionN1');
     if (!sectionN1) return;
     n1Observer = new IntersectionObserver(function(entries) {
       entries.forEach(function(e) { if (e.isIntersecting) { n1Observer.disconnect(); triggerN1Animation(); } });
-    }, { root: appMain, threshold: 0.5 });
+    }, { root: appMain, threshold: isMob ? 0.2 : 0.5 });
     n1Observer.observe(sectionN1);
   }
 
@@ -2233,12 +2403,13 @@
   function setupActivationObserver() {
     if (activationObserver) activationObserver.disconnect();
     activationAnimDone = false;
-    var appMain = document.querySelector('.app-main');
+    var isMob = window.innerWidth <= 768;
+    var appMain = isMob ? null : document.querySelector('.app-main');
     var sectionAct = document.getElementById('sectionActivation');
     if (!sectionAct) return;
     activationObserver = new IntersectionObserver(function(entries) {
       entries.forEach(function(e) { if (e.isIntersecting) { activationObserver.disconnect(); triggerActivationAnimation(); } });
-    }, { root: appMain, threshold: 0.6 });
+    }, { root: appMain, threshold: isMob ? 0.2 : 0.6 });
     activationObserver.observe(sectionAct);
   }
 
@@ -2404,12 +2575,72 @@
     });
   }, { threshold: 0.1 });
 
+  var isMobile = window.innerWidth <= 768;
+  var pricingCards = Array.from(document.querySelectorAll('.pricing-card'));
   document.querySelectorAll('.pain-card, .feature-block, .pricing-card').forEach(el => {
+    if (isMobile && el.classList.contains('pain-card')) return;
     el.style.opacity = '0';
     el.style.transform = 'translateY(32px)';
-    el.style.transition = 'opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1)';
+    var delay = el.classList.contains('pricing-card') ? pricingCards.indexOf(el) * 0.18 : 0;
+    el.style.transition = 'opacity 0.6s cubic-bezier(0.22,1,0.36,1) ' + delay + 's, transform 0.6s cubic-bezier(0.22,1,0.36,1) ' + delay + 's';
     observer.observe(el);
   });
+
+// feature 탭 전환 + flow 순차 페이드인
+(function() {
+  var tabs = document.querySelectorAll('.feat-tab');
+  var panels = document.querySelectorAll('.feat-panel');
+  var animTimer = null;
+
+  function animateFlow(panel) {
+    if (animTimer) clearTimeout(animTimer);
+    var steps = panel.querySelectorAll('.flow-step');
+    steps.forEach(function(s) {
+      s.style.transition = 'none';
+      s.style.opacity = '0';
+      s.style.transform = 'translateY(12px)';
+    });
+    panel.offsetHeight; // reflow
+    steps.forEach(function(step, i) {
+      setTimeout(function() {
+        step.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        step.style.opacity = '1';
+        step.style.transform = 'translateY(0)';
+      }, i * 400);
+    });
+    var delay = steps.length * 400 + 4500;
+    animTimer = setTimeout(function() {
+      if (panel.classList.contains('active')) animateFlow(panel);
+    }, delay);
+  }
+
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      var idx = this.dataset.tab;
+      tabs.forEach(function(t) { t.classList.remove('active'); });
+      panels.forEach(function(p) { p.classList.remove('active'); });
+      this.classList.add('active');
+      var activePanel = document.querySelector('.feat-panel[data-panel="' + idx + '"]');
+      activePanel.classList.add('active');
+      animateFlow(activePanel);
+    });
+  });
+
+  var initPanel = document.querySelector('.feat-panel.active');
+  if (initPanel) animateFlow(initPanel);
+})();
+
+// pain cards 스와이프 인디케이터
+(function() {
+  var wrap = document.querySelector('.pain-carousel-wrap');
+  var dots = document.querySelectorAll('#painIndicators .pain-dot');
+  if (!wrap || !dots.length) return;
+  wrap.addEventListener('scroll', function() {
+    var cardW = wrap.querySelector('.pain-card').offsetWidth + 14;
+    var idx = Math.round(wrap.scrollLeft / cardW);
+    dots.forEach(function(d, i) { d.classList.toggle('active', i === idx); });
+  }, { passive: true });
+})();
 </script>
 
 <!-- 커스텀 커서 -->
