@@ -776,33 +776,35 @@
     /* ── FEATURE TABS ── */
     .feat-tabs {
       display: flex;
-      border-bottom: 2px solid var(--border);
       margin-top: 56px;
-      gap: 0;
+      gap: 4px;
+      background: var(--bg-subtle);
+      padding: 4px;
+      border-radius: 12px;
+      width: fit-content;
     }
     .feat-tab {
       background: none;
       border: none;
-      border-bottom: 3px solid transparent;
-      padding: 14px 32px;
-      font-size: 16px;
+      padding: 10px 24px;
+      font-size: 15px;
       font-weight: 700;
       color: var(--muted);
       cursor: pointer;
-      margin-bottom: -2px;
-      transition: color 0.2s, border-color 0.2s;
+      transition: color 0.2s, background 0.2s, box-shadow 0.2s;
       font-family: inherit;
       white-space: nowrap;
+      border-radius: 8px;
     }
-    .feat-tab:hover { color: var(--dark); }
-    .feat-tab.active { color: var(--brand); border-bottom-color: var(--brand); }
+    .feat-tab:hover { color: var(--dark); background: rgba(108,62,244,0.06); }
+    .feat-tab.active { color: var(--brand); background: #fff; box-shadow: 0 2px 8px rgba(108,62,244,0.12); }
     .feat-panels { margin-top: 56px; }
     .feat-panel { display: none; }
     .feat-panel.active {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 64px;
-      align-items: center;
+      align-items: flex-start;
     }
     .feature-block {
       display: grid;
@@ -981,6 +983,7 @@
       border: none;
       aspect-ratio: auto;
       padding: 0;
+      margin-top: 48px;
     }
 
     /* ── STATS ── */
@@ -1341,9 +1344,10 @@
       .feature-block p, .feature-content p { font-size: 14px; line-height: 1.7; margin-bottom: 24px; }
       .feature-points { gap: 8px; }
       .feature-points li { font-size: 13px; }
-      .feat-tabs { overflow-x: auto; scrollbar-width: none; margin-top: 36px; }
+      .feat-tabs { overflow-x: visible; scrollbar-width: none; margin-top: 36px; width: 100%; box-sizing: border-box; }
       .feat-tabs::-webkit-scrollbar { display: none; }
-      .feat-tab { padding: 12px 20px; font-size: 14px; }
+      .feat-tab { padding: 10px 0; font-size: 13px; flex: 1; text-align: center; }
+      .feat-panel .feature-screenshot { margin-top: 0; }
       .feat-panels { margin-top: 32px; }
       .feat-panel.active { grid-template-columns: 1fr; gap: 32px; }
       .feature-screenshot { aspect-ratio: 3/2; }
