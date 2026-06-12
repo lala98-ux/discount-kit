@@ -1021,7 +1021,9 @@
       grid-template-columns: 1fr 1fr;
       gap: 24px;
       margin-top: 48px;
-      max-width: 720px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
     }
     .pricing-card {
       background: #fff;
@@ -1325,6 +1327,8 @@
       .feature-block.reverse { direction: ltr; }
       .stats-grid { grid-template-columns: 1fr; }
       .pricing-grid { grid-template-columns: 1fr; max-width: 100%; width: 100%; }
+      .pricing-card [style*="visibility:hidden"] { height: 0; overflow: hidden; margin: 0 !important; }
+      .pricing-divider { margin: 16px 0; }
       .final-cta .section-sub { white-space: normal; }
       .final-cta-buttons { flex-direction: column; align-items: stretch; }
       .btn-white, .btn-ghost { text-align: center; }
@@ -2634,15 +2638,59 @@
   if (initPanel) animateFlow(initPanel);
 })();
 
-// pain cards 스와이프 인디케이터
+// pain cards 스와이프 인디케이터 + 마우스 드래그
 (function() {
   var wrap = document.querySelector('.pain-carousel-wrap');
   var dots = document.querySelectorAll('#painIndicators .pain-dot');
   if (!wrap || !dots.length) return;
+
   wrap.addEventListener('scroll', function() {
     var cardW = wrap.querySelector('.pain-card').offsetWidth + 14;
     var idx = Math.round(wrap.scrollLeft / cardW);
     dots.forEach(function(d, i) { d.classList.toggle('active', i === idx); });
+  }, { passive: true });
+
+  dots.forEach(function(dot, i) {
+    dot.style.cursor = 'pointer';
+    dot.addEventListener('click', function() {
+      var cardW = wrap.querySelector('.pain-card').offsetWidth + 14;
+      wrap.scrollTo({ left: i * cardW, behavior: 'smooth' });
+    });
+  });
+
+  // 마우스 드래그 스와이프 (PC 작은 화면)
+  var isDown = false, startX, startScrollLeft, rafId = null, lastX;
+  wrap.style.cursor = 'grab';
+  wrap.addEventListener('mousedown', function(e) {
+    isDown = true;
+    lastX = startX = e.pageX;
+    startScrollLeft = wrap.scrollLeft;
+    wrap.style.cursor = 'grabbing';
+    wrap.style.userSelect = 'none';
+    wrap.style.scrollSnapType = 'none';
+  });
+  window.addEventListener('mouseup', function() {
+    if (!isDown) return;
+    isDown = false;
+    if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+    wrap.style.cursor = 'grab';
+    wrap.style.userSelect = '';
+    var cardW = wrap.querySelector('.pain-card').offsetWidth + 16;
+    var delta = wrap.scrollLeft - startScrollLeft;
+    var startIdx = Math.round(startScrollLeft / cardW);
+    var targetIdx = startIdx + (delta > cardW * 0.2 ? 1 : delta < -cardW * 0.2 ? -1 : 0);
+    targetIdx = Math.max(0, Math.min(wrap.querySelectorAll('.pain-card').length - 1, targetIdx));
+    wrap.scrollTo({ left: targetIdx * cardW, behavior: 'smooth' });
+    wrap.style.scrollSnapType = '';
+  });
+  window.addEventListener('mousemove', function(e) {
+    if (!isDown) return;
+    lastX = e.pageX;
+    if (rafId) return;
+    rafId = requestAnimationFrame(function() {
+      rafId = null;
+      if (isDown) wrap.scrollLeft = startScrollLeft - (lastX - startX);
+    });
   }, { passive: true });
 })();
 </script>
