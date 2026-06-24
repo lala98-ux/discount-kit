@@ -205,9 +205,9 @@
       align-items: center;
       gap: 14px;
     }
-    .hero-visual, .hero-visual *,
-    .hero-visual button, .hero-visual a,
-    .hero-visual [role="button"] {
+    .hero-preview-wrap, .hero-preview-wrap *,
+    .hero-preview-wrap button, .hero-preview-wrap a,
+    .hero-preview-wrap [role="button"] {
       cursor: none !important;
     }
 
@@ -310,6 +310,14 @@
     .app-card-add:hover { border-color: #6C3EF4; background: rgba(108,62,244,0.06); transform: scale(1.02); }
     .app-add-circle { transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
     .app-card-add:hover .app-add-circle { transform: rotate(90deg) scale(1.25); }
+    @keyframes addCardGlow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(108,62,244,0); }
+      50% { box-shadow: 0 0 14px 5px rgba(108,62,244,0.28); }
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .app-card-add { animation: addCardGlow 3s ease-in-out infinite; }
+      .app-card-add:hover { border-color: #6C3EF4; background: rgba(108,62,244,0.06); transform: scale(1.02); }
+    }
     @keyframes hintFloat {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-6px); }
@@ -351,9 +359,17 @@
     .app-add-circle {
       width: 32px; height: 32px; border-radius: 50%;
       border: 1.5px solid #A78BFA;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px; color: #6C3EF4; line-height: 1;
+      position: relative; transform-origin: center center; font-size: 0;
     }
+    .app-add-circle::before,
+    .app-add-circle::after {
+      content: '';
+      position: absolute;
+      background: #6C3EF4;
+      border-radius: 2px;
+    }
+    .app-add-circle::before { width: 12px; height: 2px; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+    .app-add-circle::after  { width: 2px; height: 12px; top: 50%; left: 50%; transform: translate(-50%, -50%); }
     .app-add-title { font-size: 12px; font-weight: 700; color: #6C3EF4; }
     .app-add-sub { font-size: 10px; color: #8B86A0; }
     .app-promo-card {
@@ -639,8 +655,8 @@
     .app-body.result-mode .app-sidebar { display: none; }
     .app-body.result-mode .app-main { background: #f4f4f4; overflow: hidden; }
     /* ── 장바구니 화면 ── */
-    #screen-result { position: relative; height: 100%; }
-    #screen-result.active { display: flex; flex-direction: column; }
+    #screen-result-n1, #screen-result-qty { position: relative; height: 100%; }
+    #screen-result-n1.active, #screen-result-qty.active { display: flex; flex-direction: column; }
     @keyframes toastSlide {
       0%   { opacity:0; transform:translateY(-8px); }
       12%  { opacity:1; transform:translateY(0); }
@@ -722,6 +738,7 @@
       color: var(--body);
       max-width: 520px;
       line-height: 1.7;
+      text-align: justify;
     }
     .feat-section .section-sub { max-width: none; white-space: nowrap; }
     .mob-br { display: none; }
@@ -769,6 +786,23 @@
       color: var(--muted);
       line-height: 1.7;
     }
+    .pain-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--brand);
+      margin-top: 16px;
+      cursor: pointer;
+      opacity: 0.75;
+      transition: opacity 0.2s, gap 0.2s;
+      border: none;
+      background: none;
+      padding: 0;
+      font-family: inherit;
+    }
+    .pain-link:hover { opacity: 1; gap: 8px; }
 
     /* ── FEATURES ── */
     .features-list { margin-top: 72px; display: flex; flex-direction: column; gap: 80px; }
@@ -790,7 +824,7 @@
       font-size: 15px;
       font-weight: 700;
       color: var(--muted);
-      cursor: pointer;
+      cursor: default;
       transition: color 0.2s, background 0.2s, box-shadow 0.2s;
       font-family: inherit;
       white-space: nowrap;
@@ -1013,6 +1047,103 @@
     .stat-num span { color: var(--brand-mid); }
     .stat-label { font-size: 14px; color: rgba(255,255,255,0.5); font-weight: 400; }
 
+    /* ── USE CASES ── */
+    .usecase-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .usecase-card {
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .usecase-card:hover {
+        border-color: var(--brand-mid);
+        box-shadow: 0 8px 32px rgba(108,62,244,0.08);
+      }
+    }
+    .usecase-industry {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--brand);
+      background: var(--brand-light);
+      border-radius: 20px;
+      padding: 4px 12px;
+      width: fit-content;
+    }
+    .usecase-card h3 {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--dark);
+      line-height: 1.4;
+      margin: 0;
+    }
+    .usecase-card p {
+      font-size: 14px;
+      color: var(--body);
+      line-height: 1.7;
+      margin: 0;
+      text-align: justify;
+      flex: 1;
+    }
+    .usecase-feat {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+      margin-top: 4px;
+    }
+    .usecase-feat-label {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .usecase-feat-tag {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--brand);
+      background: var(--brand-light);
+      border-radius: 6px;
+      padding: 3px 10px;
+    }
+    .usecase-result {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--dark);
+      background: var(--bg-subtle);
+      border-radius: 10px;
+      padding: 12px 16px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+    }
+    .usecase-result-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--muted);
+      background: rgba(0,0,0,0.06);
+      border-radius: 20px;
+      padding: 2px 8px;
+    }
+    .usecase-result-placeholder {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
     /* ── PRICING ── */
     .pricing { background: var(--bg-subtle); }
     .pricing-header { max-width: 560px; }
@@ -1145,7 +1276,7 @@
       text-align: center;
     }
     .final-cta .section-title { color: #fff; }
-    .final-cta .section-sub { color: rgba(255,255,255,0.75); max-width: none; margin: 0 auto 40px; white-space: nowrap; }
+    .final-cta .section-sub { color: rgba(255,255,255,0.75); max-width: none; margin: 0 auto 40px; white-space: nowrap; text-align: center; }
     .final-cta-buttons {
       display: flex;
       align-items: center;
@@ -1246,7 +1377,7 @@
       section { padding: 64px 24px; }
       .nav { padding: 0 20px; }
       .nav-cta { font-size: 12px; padding: 8px 14px; }
-      .hero { padding: 64px 24px 48px; }
+      .hero { padding: 40px 24px 48px; }
       .hero-sub { font-size: 15px; }
       .hero-preview-wrap { cursor: default; }
       .hero-visual { max-width: 100%; }
@@ -1326,7 +1457,10 @@
       .feature-block { grid-template-columns: 1fr; gap: 32px; }
       .feature-block.reverse { direction: ltr; }
       .stats-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 32px; letter-spacing: -0.5px; }
+      .hero-br { display: block; }
       .pricing-grid { grid-template-columns: 1fr; max-width: 100%; width: 100%; }
+      .usecase-grid { grid-template-columns: 1fr; }
       .pricing-card [style*="visibility:hidden"] { height: 0; overflow: hidden; margin: 0 !important; }
       .pricing-divider { margin: 16px 0; }
       .final-cta .section-sub { white-space: normal; }
@@ -1365,7 +1499,7 @@
       /* ── 모바일 장바구니 화면 ── */
       .app-body.result-mode { height: auto; }
       .app-body.result-mode .app-main { overflow-y: auto; }
-      #screen-result { height: auto; }
+      #screen-result-n1, #screen-result-qty { height: auto; }
       .cart-layout { grid-template-columns: 1fr; overflow: visible; }
       .cart-items-wrap { overflow: visible; }
       .cart-item-name { word-break: keep-all; }
@@ -1400,21 +1534,21 @@
   </div>
 
   <h1 class="fade-up delay-1">
-    전략적 할인 프로모션을<br />
-    위한 <em>카페24 전용 앱</em>
+    개발자 없이, 클릭 몇 번으로<br class="hero-br" />
+    <em>N+1 행사 시작</em>
   </h1>
 
   <p class="hero-sub fade-up delay-2">
-    <span class="hero-sub-em">N+1 할인, 수량 조건부 할인</span>
+    <span class="hero-sub-em">수량 조건부 할인 · N+1 할인</span>
     카페24 기본 기능에 없던 프로모션을<br />
-    세밀하게 설정하고 실시간으로 운영하세요.
+    세밀하게 설정하고, 설치 즉시 바로 시작할 수 있어요.
   </p>
 
   <a href="https://store.cafe24.com/kr/apps/31993" class="cta-btn fade-up delay-3" id="heroCta">
     <span class="cta-text" id="ctaText1">카페24 앱스토어에서 설치하기</span>
     <span class="cta-text hidden" id="ctaText2">오늘부터 N+1 행사 시작하기</span>
   </a>
-  <p class="hero-note fade-up delay-4">월 50,000원 · 언제든 해지 가능</p>
+  <p class="hero-note fade-up delay-4">월 50,000원 · 설치 즉시 사용 가능</p>
 
   <!-- 히어로 앱 목업 -->
   <div class="hero-preview-wrap fade-up delay-4">
@@ -1832,18 +1966,18 @@
             </div>
           </div><!-- end screen-create -->
 
-          <!-- 저장 후 고객 장바구니 화면 -->
-          <div class="app-screen" id="screen-result">
+          <!-- 저장 후 고객 장바구니 화면 (수량 조건부 할인) -->
+          <div class="app-screen" id="screen-result-qty">
             <!-- 적용 완료 토스트 (absolute overlay) -->
-            <div class="cart-toast" id="cartToast">
+            <div class="cart-toast" id="cartToastQty">
               <span class="cart-toast-check">✓</span>
-              '여름 시즌 2+1 행사' 프로모션이 쇼핑몰에 적용되었습니다!
+              '2개 이상 구매 할인' 프로모션이 쇼핑몰에 적용되었습니다!
             </div>
 
             <!-- 페이지 헤더 -->
             <div class="cart-pg-header">
               <div class="cart-pg-title">장바구니</div>
-              <div class="cart-pg-count">총 3개 상품</div>
+              <div class="cart-pg-count">총 2개 상품</div>
             </div>
             <div class="cart-pg-divider"></div>
 
@@ -1854,11 +1988,106 @@
                   <!-- Item 1 -->
                   <div class="cart-item">
                     <div class="cart-item-check"></div>
-                    <div class="cart-item-thumb">🧥</div>
+                    <div class="cart-item-thumb">🧴</div>
                     <div class="cart-item-info">
                       <div class="cart-item-name-row">
-                        <span class="cart-item-name">오버핏 데님 자켓</span>
+                        <span class="cart-item-name">수분 크림 100ml</span>
                       </div>
+                      <div class="cart-item-opt">용량 : 100ml</div>
+                      <div class="cart-item-price-row">
+                        <span class="cart-item-price-orig">25,000원</span>
+                        <span class="cart-item-qty-text">· 수량:1개</span>
+                      </div>
+                      <div class="cart-qty-ctrl">
+                        <span class="cart-qty-btn">−</span><span class="cart-qty-num">1</span><span class="cart-qty-btn">+</span>
+                      </div>
+                    </div>
+                    <div class="cart-item-right">
+                      <div class="cart-item-del">×</div>
+                      <div class="cart-item-final">25,000원</div>
+                    </div>
+                  </div>
+                  <!-- Item 2 -->
+                  <div class="cart-item">
+                    <div class="cart-item-check"></div>
+                    <div class="cart-item-thumb">🧴</div>
+                    <div class="cart-item-info">
+                      <div class="cart-item-name-row">
+                        <span class="cart-item-name">토너 200ml</span>
+                      </div>
+                      <div class="cart-item-opt">용량 : 200ml</div>
+                      <div class="cart-item-price-row">
+                        <span class="cart-item-price-orig">22,000원</span>
+                        <span class="cart-item-qty-text">· 수량:1개</span>
+                      </div>
+                      <div class="cart-qty-ctrl">
+                        <span class="cart-qty-btn">−</span><span class="cart-qty-num">1</span><span class="cart-qty-btn">+</span>
+                      </div>
+                    </div>
+                    <div class="cart-item-right">
+                      <div class="cart-item-del">×</div>
+                      <div class="cart-item-final">22,000원</div>
+                    </div>
+                  </div>
+                </div>
+                <!-- 배송 요약 행 -->
+                <div class="cart-shipping-row">
+                  <span class="cart-shipping-label">[기본배송]</span>
+                  <span class="cart-shipping-info">상품구매금액 47,000원 + 0원</span>
+                  <span class="cart-shipping-sub">47,000원</span>
+                </div>
+                <!-- 하단 버튼 -->
+                <div class="cart-bottom-btns">
+                  <button class="cart-sel-btn">전체선택</button>
+                  <button class="cart-del-btn">선택삭제</button>
+                </div>
+              </div>
+
+              <!-- 우: 가격 요약 -->
+              <div class="cart-right">
+                <div class="cart-summary-card">
+                  <div class="cart-sum-row">
+                    <span>총 상품금액</span><span>47,000원</span>
+                  </div>
+                  <div class="cart-sum-row">
+                    <span>총 할인금액</span><span>500원</span>
+                  </div>
+                  <div class="cart-sum-sub-row">
+                    <span>└ 2개 이상 구매 할인</span><span>500원</span>
+                  </div>
+                  <div class="cart-sum-divider"></div>
+                  <div class="cart-sum-total-row">
+                    <span class="cart-sum-total-label">결제예정금액</span>
+                    <span class="cart-sum-total-val">46,500원</span>
+                  </div>
+                  <div class="cart-order-btns">
+                    <button class="cart-order-btn dark">전체상품주문</button>
+                    <button class="cart-order-btn outline">선택상품주문</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!-- end screen-result-qty -->
+
+          <!-- 저장 후 고객 장바구니 화면 (N+1 증정) -->
+          <div class="app-screen" id="screen-result-n1">
+            <div class="cart-toast" id="cartToastN1">
+              <span class="cart-toast-check">✓</span>
+              '여름 시즌 2+1 행사' 프로모션이 쇼핑몰에 적용되었습니다!
+            </div>
+            <div class="cart-pg-header">
+              <div class="cart-pg-title">장바구니</div>
+              <div class="cart-pg-count">총 3개 상품</div>
+            </div>
+            <div class="cart-pg-divider"></div>
+            <div class="cart-layout">
+              <div class="cart-left">
+                <div class="cart-items-wrap">
+                  <div class="cart-item">
+                    <div class="cart-item-check"></div>
+                    <div class="cart-item-thumb">🧥</div>
+                    <div class="cart-item-info">
+                      <div class="cart-item-name-row"><span class="cart-item-name">오버핏 데님 자켓</span></div>
                       <div class="cart-item-opt">사이즈 : M &nbsp;·&nbsp; 색상 : 인디고블루</div>
                       <div class="cart-item-price-row">
                         <span class="cart-item-price-orig">40,000원</span>
@@ -1873,14 +2102,11 @@
                       <div class="cart-item-final">40,000원</div>
                     </div>
                   </div>
-                  <!-- Item 2 -->
                   <div class="cart-item">
                     <div class="cart-item-check"></div>
                     <div class="cart-item-thumb">🧥</div>
                     <div class="cart-item-info">
-                      <div class="cart-item-name-row">
-                        <span class="cart-item-name">오버핏 데님 자켓</span>
-                      </div>
+                      <div class="cart-item-name-row"><span class="cart-item-name">오버핏 데님 자켓</span></div>
                       <div class="cart-item-opt">사이즈 : L &nbsp;·&nbsp; 색상 : 블랙</div>
                       <div class="cart-item-price-row">
                         <span class="cart-item-price-orig">40,000원</span>
@@ -1895,7 +2121,6 @@
                       <div class="cart-item-final">40,000원</div>
                     </div>
                   </div>
-                  <!-- Item 3: 2+1 증정 -->
                   <div class="cart-item">
                     <div class="cart-item-check"></div>
                     <div class="cart-item-thumb gift">🧥</div>
@@ -1920,31 +2145,21 @@
                     </div>
                   </div>
                 </div>
-                <!-- 배송 요약 행 -->
                 <div class="cart-shipping-row">
                   <span class="cart-shipping-label">[기본배송]</span>
                   <span class="cart-shipping-info">상품구매금액 120,000원 + 0원</span>
                   <span class="cart-shipping-sub">80,000원</span>
                 </div>
-                <!-- 하단 버튼 -->
                 <div class="cart-bottom-btns">
                   <button class="cart-sel-btn">전체선택</button>
                   <button class="cart-del-btn">선택삭제</button>
                 </div>
               </div>
-
-              <!-- 우: 가격 요약 -->
               <div class="cart-right">
                 <div class="cart-summary-card">
-                  <div class="cart-sum-row">
-                    <span>총 상품금액</span><span>120,000원</span>
-                  </div>
-                  <div class="cart-sum-row">
-                    <span>총 할인금액</span><span>40,000원</span>
-                  </div>
-                  <div class="cart-sum-sub-row">
-                    <span>└ 여름 시즌 2+1 행사</span><span>40,000원</span>
-                  </div>
+                  <div class="cart-sum-row"><span>총 상품금액</span><span>120,000원</span></div>
+                  <div class="cart-sum-row"><span>총 할인금액</span><span>40,000원</span></div>
+                  <div class="cart-sum-sub-row"><span>└ 여름 시즌 2+1 행사</span><span>40,000원</span></div>
                   <div class="cart-sum-divider"></div>
                   <div class="cart-sum-total-row">
                     <span class="cart-sum-total-label">결제예정금액</span>
@@ -1957,7 +2172,7 @@
                 </div>
               </div>
             </div>
-          </div><!-- end screen-result -->
+          </div><!-- end screen-result-n1 -->
 
         </div>
 
@@ -1966,7 +2181,7 @@
           <div class="save-modal-box">
             <div class="save-modal-icon">✓</div>
             <div class="save-modal-title">프로모션이 쇼핑몰에<br>적용되었습니다!</div>
-            <div class="save-modal-sub">'여름 시즌 2+1 행사'가<br>지금 바로 고객 쇼핑몰에 활성화됩니다</div>
+            <div class="save-modal-sub">'2개 이상 구매 할인'이<br>지금 바로 고객 쇼핑몰에 활성화됩니다</div>
             <button class="save-modal-btn" id="saveModalConfirm">쇼핑몰 장바구니 확인 →</button>
           </div>
         </div>
@@ -1988,16 +2203,19 @@
           <div class="pain-icon">🛒</div>
           <h3>N+1 행사 하나 설정하려고<br/>개발자를 불렀던 적 있으신가요?</h3>
           <p>카페24에 없는 N+1 프로모션을, 개발자 없이 클릭 몇 번으로 직접 설정할 수 있습니다. 지금 내 쇼핑몰에서 바로 시작하세요.</p>
+          <button class="pain-link" data-tab="0">N+1 할인으로 해결하기 →</button>
         </div>
         <div class="pain-card">
           <div class="pain-icon">⚡</div>
           <h3>재고가 줄었는데 프로모션을<br/>즉시 수정할 수 없으셨던 적 있으신가요?</h3>
           <p>할인킷은 재고 상황에 맞게 프로모션 조건을 실시간으로 수정할 수 있습니다. 수정된 정책은 저장 즉시 쇼핑몰에 반영됩니다.</p>
+          <button class="pain-link" data-tab="2">실시간 정책 변경으로 해결하기 →</button>
         </div>
         <div class="pain-card">
           <div class="pain-icon">🎯</div>
           <h3>특정 카테고리만 묶어서<br/>할인을 걸고 싶었는데 방법이 없었나요?</h3>
           <p>브랜드·카테고리·상품군 단위로 원하는 상품에만 할인 범위를 정확하게 지정할 수 있습니다. 불필요한 할인 없이 딱 필요한 곳에만 적용하세요.</p>
+          <button class="pain-link" data-tab="1">수량 조건부 할인으로 해결하기 →</button>
         </div>
       </div>
     </div>
@@ -2014,7 +2232,7 @@
   <div class="section-inner">
     <div class="section-label">핵심 기능</div>
     <h2 class="section-title">할인킷만 할 수 있는<br/>프로모션 기능</h2>
-    <p class="section-sub">카페24 기본 기능으로는 부족했던<br class="mob-br"/> 프로모션, 이제 할인킷으로 해결하세요.</p>
+    <p class="section-sub">카페24 기본 기능으로 아쉬웠던<br class="mob-br"/> 프로모션, 이제 할인킷으로 해결할 수 있어요.</p>
 
     <div class="feat-tabs">
       <button class="feat-tab active" data-tab="0">N+1 할인</button>
@@ -2149,13 +2367,65 @@
   </div>
 </section>
 
+<!-- ── USE CASES ── -->
+<section class="usecase">
+  <div class="section-inner">
+    <div class="section-label">활용 사례</div>
+    <h2 class="section-title">이런 쇼핑몰에서<br/>활용하고 있어요</h2>
+    <p class="section-sub">업종은 달라도, 프로모션 고민은 비슷했어요.<br/>카페24 쇼핑몰이라면 설치 즉시 해결할 수 있어요.</p>
+
+    <div class="usecase-grid">
+      <div class="usecase-card">
+        <span class="usecase-industry">의류 · 패션</span>
+        <h3>카페24에 없던 N+1을<br/>직접 기획하고 운영</h3>
+        <p>N+1 행사를 기획했지만 카페24 기본 기능으로는 설정할 수 없어서 포기했던 행사를, 할인킷 설치 후 그날 바로 시작할 수 있었어요. 개발자 없이 직접 운영할 수 있다는 게 가장 좋았어요.</p>
+        <div class="usecase-feat">
+          <span class="usecase-feat-label">활용 기능</span>
+          <span class="usecase-feat-tag">N+1 할인</span>
+        </div>
+        <div class="usecase-result">
+          <span class="usecase-result-tag">도입 쇼핑몰 기준</span>
+          N+1 적용 주문 평균 객단가 45,072원
+        </div>
+      </div>
+
+      <div class="usecase-card">
+        <span class="usecase-industry">식품 · 생활용품</span>
+        <h3>명절 단체 주문에 맞춰<br/>수량 할인 즉시 설정</h3>
+        <p>명절마다 단체 주문은 많은데 수량별 조건부 할인을 걸 방법이 없었어요. 할인킷으로는 수량 조건부 할인을 설정할 수 있어서 명절 시즌 프로모션 운영이 훨씬 수월해졌어요.</p>
+        <div class="usecase-feat">
+          <span class="usecase-feat-label">활용 기능</span>
+          <span class="usecase-feat-tag">수량 조건부 할인</span>
+        </div>
+        <div class="usecase-result">
+          <span class="usecase-result-tag">도입 쇼핑몰 기준</span>
+          장바구니당 평균 2.8개 구매
+        </div>
+      </div>
+
+      <div class="usecase-card">
+        <span class="usecase-industry">화장품 · 뷰티</span>
+        <h3>재고 상황에 따라<br/>프로모션 조건 즉시 수정</h3>
+        <p>재고에 문제가 생기거나 프로모션 기획이 변경되면, 개발사에 연락해야 해서 대응이 항상 늦었는데 할인킷은 설정 화면에서 바로 수정할 수 있어서 기회 손실 없이 즉시 대응할 수 있었어요.</p>
+        <div class="usecase-feat">
+          <span class="usecase-feat-label">활용 기능</span>
+          <span class="usecase-feat-tag">실시간 정책 변경</span>
+        </div>
+        <div class="usecase-result">
+          저장 즉시 쇼핑몰 반영<br/>개발사 대기 없이 자체 운영
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ── PRICING ── -->
 <section class="pricing">
   <div class="section-inner">
     <div class="pricing-header">
       <div class="section-label">요금제</div>
       <h2 class="section-title">합리적인 단일 플랜</h2>
-      <p class="section-sub">모든 기능을 제한 없이 사용할 수 있는 단일 구조입니다.</p>
+      <p class="section-sub">모든 기능을 제한 없이, 하나의 요금제로 편하게 이용할 수 있어요.</p>
     </div>
 
     <div class="pricing-grid">
@@ -2206,7 +2476,7 @@
 <section class="final-cta">
   <div class="section-inner" style="text-align:center;">
     <h2 class="section-title">지금 바로 프로모션을<br/>시작할 준비가 됐나요?</h2>
-    <p class="section-sub">카페24 앱스토어에서 설치하고<br class="mob-br"/> 오늘부터 N+1 행사를 운영하세요.</p>
+    <p class="section-sub">카페24 앱스토어에서 설치하면<br class="mob-br"/> 오늘부터 N+1 행사를 바로 시작할 수 있어요.</p>
     <div class="final-cta-buttons">
       <a href="https://store.cafe24.com/kr/apps/31993" class="btn-white">카페24 앱스토어에서 설치하기</a>
       <a href="https://store.cafe24.com/kr/apps/31993" class="btn-ghost">요금제 자세히 보기</a>
@@ -2221,7 +2491,7 @@
       할인킷
       <small>by 셀킷</small>
     </div>
-    <div class="footer-text">© 2024 셀킷. All rights reserved.</div>
+    <div class="footer-text">© 2026 셀킷. All rights reserved.</div>
   </div>
 </footer>
 
@@ -2461,7 +2731,7 @@
     setupActivationObserver();
 
     // 타이핑 시작
-    var text = '여름 시즌 2+1 행사';
+    var text = '2개 이상 구매 할인';
     var i = 0;
     createAnimTimer = setInterval(function() {
       if (i < text.length) {
@@ -2515,9 +2785,10 @@
       if (targetNav) targetNav.classList.add('active');
     }
     const appBody = document.querySelector('.app-body');
-    if (appBody) appBody.classList.toggle('result-mode', screenId === 'screen-result');
+    var isResult = screenId === 'screen-result-n1' || screenId === 'screen-result-qty';
+    if (appBody) appBody.classList.toggle('result-mode', isResult);
     const returnBtn = document.getElementById('returnAdminBtn');
-    if (returnBtn) returnBtn.classList.toggle('visible', screenId === 'screen-result');
+    if (returnBtn) returnBtn.classList.toggle('visible', isResult);
     if (screenId === 'screen-create') {
       setTimeout(animateCreateScreen, 220);
     } else {
@@ -2550,6 +2821,12 @@
   });
   document.querySelector('#screen-create .create-save').addEventListener('click', function() {
     var modal = document.getElementById('saveModal');
+    var sub = document.querySelector('#saveModal .save-modal-sub');
+    if (sub) {
+      sub.innerHTML = currentPromoType === 'n1'
+        ? "'여름 시즌 2+1 행사'가<br>지금 바로 고객 쇼핑몰에 활성화됩니다"
+        : "'2개 이상 구매 할인'이<br>지금 바로 고객 쇼핑몰에 활성화됩니다";
+    }
     if (modal) modal.classList.add('active');
   });
   document.getElementById('returnAdminBtn').addEventListener('click', function() {
@@ -2558,8 +2835,10 @@
   document.getElementById('saveModalConfirm').addEventListener('click', function() {
     var modal = document.getElementById('saveModal');
     if (modal) modal.classList.remove('active');
-    showScreen('screen-result', 'result');
-    var toast = document.getElementById('cartToast');
+    var targetScreen = currentPromoType === 'n1' ? 'screen-result-n1' : 'screen-result-qty';
+    showScreen(targetScreen, 'result');
+    var toastId = currentPromoType === 'n1' ? 'cartToastN1' : 'cartToastQty';
+    var toast = document.getElementById(toastId);
     if (toast) { toast.style.animation = 'none'; void toast.offsetWidth; toast.style.animation = ''; }
     setTimeout(function() {
       if (window.innerWidth <= 768) {
@@ -2638,6 +2917,17 @@
   if (initPanel) animateFlow(initPanel);
 })();
 
+// pain-link → feat-section 탭 이동
+document.querySelectorAll('.pain-link').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var tabIdx = this.dataset.tab;
+    var target = document.querySelector('.feat-tab[data-tab="' + tabIdx + '"]');
+    if (target) target.click();
+    var featSection = document.querySelector('.feat-section');
+    if (featSection) featSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
 // pain cards 스와이프 인디케이터 + 마우스 드래그
 (function() {
   var wrap = document.querySelector('.pain-carousel-wrap');
@@ -2660,12 +2950,13 @@
 
   // 마우스 드래그 스와이프 (PC 작은 화면)
   var isDown = false, startX, startScrollLeft, rafId = null, lastX;
-  wrap.style.cursor = 'grab';
+  var isPC = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (!isPC) wrap.style.cursor = 'grab';
   wrap.addEventListener('mousedown', function(e) {
     isDown = true;
     lastX = startX = e.pageX;
     startScrollLeft = wrap.scrollLeft;
-    wrap.style.cursor = 'grabbing';
+    if (!isPC) wrap.style.cursor = 'grabbing';
     wrap.style.userSelect = 'none';
     wrap.style.scrollSnapType = 'none';
   });
@@ -2673,7 +2964,7 @@
     if (!isDown) return;
     isDown = false;
     if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
-    wrap.style.cursor = 'grab';
+    if (!isPC) wrap.style.cursor = 'grab';
     wrap.style.userSelect = '';
     var cardW = wrap.querySelector('.pain-card').offsetWidth + 16;
     var delta = wrap.scrollLeft - startScrollLeft;
@@ -2703,7 +2994,7 @@
 <script>
 (function() {
   var cursor = document.getElementById('custom-cursor');
-  var heroVisual = document.querySelector('.hero-visual');
+  var heroVisual = document.querySelector('.hero-preview-wrap');
   if (!cursor || !heroVisual) return;
   if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
 
