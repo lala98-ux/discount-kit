@@ -816,6 +816,9 @@
       padding: 4px;
       border-radius: 12px;
       width: fit-content;
+      position: sticky;
+      top: 16px;
+      z-index: 10;
     }
     .feat-tab {
       background: none;
@@ -824,22 +827,25 @@
       font-size: 15px;
       font-weight: 700;
       color: var(--muted);
-      cursor: default;
+      cursor: pointer;
       transition: color 0.2s, background 0.2s, box-shadow 0.2s;
       font-family: inherit;
       white-space: nowrap;
       border-radius: 8px;
+      position: relative;
+      overflow: hidden;
     }
     .feat-tab:hover { color: var(--dark); background: rgba(108,62,244,0.06); }
     .feat-tab.active { color: var(--brand); background: #fff; box-shadow: 0 2px 8px rgba(108,62,244,0.12); }
-    .feat-panels { margin-top: 56px; }
-    .feat-panel { display: none; }
-    .feat-panel.active {
+    .feat-panels { margin-top: 40px; }
+    .feat-panel {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 64px;
       align-items: flex-start;
+      scroll-margin-top: 80px;
     }
+    .feat-panel + .feat-panel { margin-top: 80px; padding-top: 64px; border-top: 1px solid var(--border); }
     .feature-block {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -1017,8 +1023,188 @@
       border: none;
       aspect-ratio: auto;
       padding: 0;
-      margin-top: 48px;
+      margin-top: 40px;
     }
+    .feature-left { display: flex; flex-direction: column; }
+    .feature-visual {
+      background: var(--bg-subtle);
+      border-radius: 20px;
+      min-height: 380px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* ── N+1 INFOGRAPHIC ── */
+    .n1-visual {
+      width: 100%; display: flex; flex-direction: column;
+      gap: 10px; padding: 20px;
+    }
+    .n1-phase-card {
+      display: flex; align-items: center; gap: 12px;
+      background: #fff; border-radius: 12px;
+      padding: 11px 14px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      transition: opacity 0.2s ease;
+    }
+    .n1-pc-icon {
+      font-size: 18px; width: 36px; height: 36px;
+      background: var(--bg-subtle); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .n1-pc-label { font-size: 11px; color: var(--muted); font-weight: 600; margin-bottom: 2px; }
+    .n1-pc-desc { font-size: 13px; font-weight: 700; color: var(--dark); }
+    .n1-pc-steps { display: flex; gap: 5px; align-items: center; margin-left: auto; padding-left: 10px; flex-shrink: 0; }
+    .n1-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); transition: background 0.3s ease, transform 0.3s ease; }
+    .n1-dot.active { background: var(--brand); transform: scale(1.2); }
+    .n1-mock-screen {
+      background: #fff; border-radius: 12px; overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      display: flex; flex-direction: column;
+    }
+    .n1-mock-header {
+      padding: 11px 14px; font-weight: 700; font-size: 13px; color: var(--dark);
+      border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .n1-hd-count { font-size: 12px; font-weight: 400; color: var(--muted); }
+    .n1-mock-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px; border-bottom: 1px solid #f0f0f0;
+      opacity: 0; transform: translateX(-10px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .n1-mock-item.n1-in { opacity: 1; transform: translateX(0); }
+    .n1-mi-thumb {
+      font-size: 18px; width: 34px; height: 34px;
+      background: var(--bg-subtle); border-radius: 7px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .n1-mi-info { flex: 1; min-width: 0; }
+    .n1-mi-name { font-size: 12px; font-weight: 600; color: var(--dark); }
+    .n1-mi-spec { font-size: 10px; color: var(--muted); margin-top: 1px; }
+    .n1-mi-right { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex-shrink: 0; }
+    .n1-mi-price { font-size: 12px; font-weight: 700; color: var(--dark); }
+    .n1-free-tag {
+      background: var(--brand); color: #fff;
+      font-size: 10px; font-weight: 800; letter-spacing: 0.3px;
+      padding: 2px 7px; border-radius: 20px;
+      transform: scale(0); opacity: 0;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s ease;
+    }
+    .n1-free-tag.n1-in { transform: scale(1); opacity: 1; }
+    .n1-mi-price-strike { font-size: 10px; color: var(--muted); text-decoration: line-through; }
+    .n1-mock-summary {
+      background: var(--bg-subtle); border-top: 1px solid var(--border);
+      padding: 10px 14px;
+      opacity: 0; transform: translateY(8px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .n1-mock-summary.n1-in { opacity: 1; transform: translateY(0); }
+    .n1-sum-row {
+      display: flex; justify-content: space-between;
+      font-size: 11px; color: var(--body); padding: 3px 0;
+    }
+    .n1-sum-discount {
+      color: var(--brand); font-weight: 600;
+      opacity: 0; transform: translateX(-6px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .n1-sum-discount.n1-in { opacity: 1; transform: translateX(0); }
+    .n1-sum-sub {
+      font-size: 10px; color: var(--brand);
+      padding: 3px 8px; border-radius: 6px;
+      background: var(--brand-light);
+      margin: 2px 0 4px;
+      opacity: 0; transition: opacity 0.3s ease;
+    }
+    .n1-sum-sub.n1-in { opacity: 1; }
+    .n1-sum-total {
+      display: flex; justify-content: space-between;
+      font-size: 13px; font-weight: 700; color: var(--dark);
+      border-top: 1px solid var(--border); margin-top: 6px; padding-top: 8px;
+    }
+    .n1-total-amount { color: var(--brand); }
+
+    /* ── 실시간 정책 변경 INFOGRAPHIC ── */
+    .rt-screens-wrap { position: relative; min-height: 270px; }
+    .rt-screen { position: absolute; width: 100%; top: 0; opacity: 0; transition: opacity 0.4s ease; pointer-events: none; }
+    .rt-screen.rt-active { opacity: 1; pointer-events: auto; }
+    /* Screen 1: 재고 현황 */
+    .rt-s1-content { padding: 10px 14px; }
+    .rt-stock-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 0; border-bottom: 1px solid #f0f0f0; font-size: 12px;
+    }
+    .rt-stock-name { font-weight: 600; color: var(--dark); }
+    .rt-stock-count { font-weight: 700; color: #D97706; }
+    .rt-alert-msg {
+      margin-top: 10px; font-size: 12px; font-weight: 600; color: #D97706;
+      background: #FEF3C7; border-radius: 8px; padding: 8px 12px;
+      opacity: 0; transform: translateY(-4px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .rt-alert-msg.n1-in { opacity: 1; transform: translateY(0); }
+    /* Screen 2: 프로모션 편집 */
+    .rt-promo-card-item {
+      margin: 10px 14px; background: var(--bg-subtle);
+      border-radius: 10px; padding: 10px 12px; border: 2px solid var(--brand-light);
+    }
+    .rt-promo-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    .rt-promo-type { font-size: 11px; font-weight: 700; color: var(--brand); }
+    .rt-promo-live { font-size: 10px; font-weight: 700; color: #059669; background: #D1FAE5; border-radius: 20px; padding: 2px 8px; }
+    .rt-promo-title { font-size: 13px; font-weight: 700; color: var(--dark); }
+    .rt-edit-section { padding: 6px 14px 8px; }
+    .rt-edit-label { font-size: 11px; color: var(--muted); font-weight: 600; margin-bottom: 6px; }
+    .rt-edit-control { display: flex; align-items: center; gap: 8px; }
+    .rt-edit-btn {
+      width: 24px; height: 24px; border-radius: 6px;
+      background: var(--bg-subtle); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 700; color: var(--muted); flex-shrink: 0;
+    }
+    .rt-edit-num { font-size: 18px; font-weight: 800; color: var(--brand); min-width: 24px; text-align: center; transition: all 0.3s ease; }
+    .rt-edit-desc { font-size: 11px; color: var(--muted); margin-top: 6px; transition: opacity 0.3s ease; }
+    .rt-save-btn {
+      margin: 8px 14px 24px; background: var(--brand); color: #fff;
+      font-size: 13px; font-weight: 700; text-align: center;
+      border-radius: 10px; padding: 11px;
+      opacity: 0; transform: translateY(4px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .rt-save-btn.n1-in { opacity: 1; transform: translateY(0); }
+    /* Screen 3: 쇼핑몰 반영 */
+    .rt-live-badge { font-size: 10px; font-weight: 800; color: #059669; background: #D1FAE5; border-radius: 20px; padding: 2px 6px; margin-left: 6px; }
+    .rt-shop-content { padding: 12px 14px; }
+    .rt-shop-event {
+      background: linear-gradient(135deg, var(--brand-light), #EDE9FE);
+      border-radius: 12px; padding: 14px; margin-bottom: 10px; text-align: center;
+    }
+    .rt-shop-tag { font-size: 10px; font-weight: 700; color: var(--brand); margin-bottom: 6px; }
+    .rt-shop-title { font-size: 14px; font-weight: 800; color: var(--dark); margin-bottom: 4px; }
+    .rt-shop-desc { font-size: 12px; color: var(--body); line-height: 1.5; }
+    .rt-shop-desc strong { color: var(--brand); font-weight: 700; }
+    .rt-saved {
+      font-size: 12px; font-weight: 600; color: #059669;
+      background: #D1FAE5; border-radius: 8px; padding: 8px 12px; text-align: center;
+      opacity: 0; transform: translateY(4px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .rt-saved.n1-in { opacity: 1; transform: translateY(0); }
+    /* Screen 3: 팝업 */
+    .rt-popup-screen { bottom: 0; background: rgba(0,0,0,0.48); display: flex; align-items: center; justify-content: center; }
+    .rt-popup-card {
+      background: #fff; border-radius: 16px; padding: 20px 22px;
+      width: 80%; box-shadow: 0 12px 48px rgba(0,0,0,0.28);
+      text-align: center;
+      transform: scale(0.88);
+      transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.15s;
+    }
+    .rt-popup-screen.rt-active .rt-popup-card { transform: scale(1); }
+    .rt-popup-emoji { font-size: 26px; margin-bottom: 8px; }
+    .rt-popup-title { font-size: 14px; font-weight: 800; color: var(--dark); margin-bottom: 4px; }
+    .rt-popup-desc { font-size: 12px; color: var(--body); line-height: 1.5; margin-bottom: 12px; }
 
     /* ── STATS ── */
     .stats { background: var(--dark); }
@@ -1487,7 +1673,9 @@
       .feat-tab { padding: 10px 0; font-size: 13px; flex: 1; text-align: center; }
       .feat-panel .feature-screenshot { margin-top: 0; }
       .feat-panels { margin-top: 32px; }
-      .feat-panel.active { grid-template-columns: 1fr; gap: 32px; }
+      .feat-panel { grid-template-columns: 1fr; gap: 24px; scroll-margin-top: 60px; }
+      .feat-panel + .feat-panel { margin-top: 56px; padding-top: 48px; }
+      .feature-visual { display: flex; order: -1; min-height: 240px; }
       .feature-screenshot { aspect-ratio: 3/2; }
       .preview-n1 { padding: 14px 16px; gap: 2px; }
       .preview-header { font-size: 10.5px; padding-bottom: 8px; }
@@ -2243,39 +2431,74 @@
     <div class="feat-panels">
       <!-- 패널 0: N+1 할인 -->
       <div class="feat-panel active" data-panel="0">
-        <div class="feature-content">
-          <span class="feature-tag">카페24 독점 기능</span>
-          <h3>N+1 할인 —<br/>조건부 상품 증정</h3>
-          <p>지정한 상품을 N개 구매하면 동일 상품 1개를 자동으로 증정합니다.
-          카테고리, 브랜드, 개별 상품 단위로 자유롭게 조합할 수 있어
-          편의점 1+1 행사를 내 쇼핑몰에서 그대로 구현합니다.</p>
-          <ul class="feature-points">
-            <li>설정한 상품군 내 자유로운 교차 조합 지원</li>
-            <li>장바구니·주문 페이지에 프로모션 사유 자동 노출</li>
-            <li>재고 상황에 맞춰 실시간 정책 수정 가능</li>
-          </ul>
+        <div class="feature-left">
+          <div class="feature-content">
+            <span class="feature-tag">카페24 독점 기능</span>
+            <h3>N+1 할인 —<br/>조건부 상품 증정</h3>
+            <p>지정한 상품을 N개 구매하면 동일 상품 1개를 자동으로 증정합니다.
+            카테고리, 브랜드, 개별 상품 단위로 자유롭게 조합할 수 있어
+            편의점 1+1 행사를 내 쇼핑몰에서 그대로 구현합니다.</p>
+            <ul class="feature-points">
+              <li>설정한 상품군 내 자유로운 교차 조합 지원</li>
+              <li>장바구니·주문 페이지에 프로모션 사유 자동 노출</li>
+              <li>재고 상황에 맞춰 실시간 정책 수정 가능</li>
+            </ul>
+          </div>
         </div>
-        <div class="feature-screenshot">
-          <div class="preview-flow">
-            <div class="flow-step">
-              <div class="flow-icon-wrap">🛒</div>
-              <div class="flow-body">
-                <div class="flow-label">고객 행동</div>
-                <div class="flow-desc">프로모션이 적용된<br/>상품 3개 장바구니에 담기</div>
+        <div class="feature-visual">
+          <div class="n1-visual">
+            <div class="n1-phase-card" id="n1PhaseCard">
+              <div class="n1-pc-icon" id="n1PcIcon">🛒</div>
+              <div class="n1-pc-body">
+                <div class="n1-pc-label" id="n1PcLabel">고객 행동</div>
+                <div class="n1-pc-desc" id="n1PcDesc">상품 3개 장바구니에 담기</div>
+              </div>
+              <div class="n1-pc-steps">
+                <span class="n1-dot active" id="n1Dot1"></span>
+                <span class="n1-dot" id="n1Dot2"></span>
+                <span class="n1-dot" id="n1Dot3"></span>
               </div>
             </div>
-            <div class="flow-step">
-              <div class="flow-icon-wrap">⚡</div>
-              <div class="flow-body">
-                <div class="flow-label">할인킷 감지</div>
-                <div class="flow-desc">2+1 조건 충족 자동 인식</div>
+            <div class="n1-mock-screen">
+              <div class="n1-mock-header">
+                장바구니
+                <span class="n1-hd-count">총 <span id="n1Count">0</span>개 상품</span>
               </div>
-            </div>
-            <div class="flow-step result">
-              <div class="flow-icon-wrap">🎁</div>
-              <div class="flow-body">
-                <div class="flow-label">결과</div>
-                <div class="flow-desc">상품 1개 자동 할인<br/>2+1 할인 적용</div>
+              <!-- 자켓 1개 — 가장 저렴, N+1 결과 시 FREE 처리 -->
+              <div class="n1-mock-item" id="n1Item1">
+                <div class="n1-mi-thumb">🧥</div>
+                <div class="n1-mi-info">
+                  <div class="n1-mi-name">오버핏 데님 자켓</div>
+                  <div class="n1-mi-spec">사이즈 M · 인디고블루 · 수량 1개</div>
+                </div>
+                <div class="n1-mi-right">
+                  <span class="n1-free-tag" id="n1FreeTag">FREE</span>
+                  <span class="n1-mi-price" id="n1Item1Price">40,000원</span>
+                </div>
+              </div>
+              <!-- 청바지 2개 -->
+              <div class="n1-mock-item" id="n1Item2">
+                <div class="n1-mi-thumb">👖</div>
+                <div class="n1-mi-info">
+                  <div class="n1-mi-name">데일리 청바지</div>
+                  <div class="n1-mi-spec">사이즈 M · 블루 · 수량 2개</div>
+                </div>
+                <div class="n1-mi-right">
+                  <span class="n1-mi-price">100,000원</span>
+                </div>
+              </div>
+              <div class="n1-mock-summary" id="n1Summary">
+                <div class="n1-sum-row">
+                  <span>총 상품금액</span><span>140,000원</span>
+                </div>
+                <div class="n1-sum-row n1-sum-discount" id="n1DiscountRow">
+                  <span>총 할인금액</span><span>40,000원</span>
+                </div>
+                <div class="n1-sum-sub" id="n1DiscountSub">└ 여름 시즌 2+1 행사&nbsp;&nbsp;40,000원</div>
+                <div class="n1-sum-total">
+                  <span>결제예정금액</span>
+                  <span class="n1-total-amount" id="n1Total">140,000원</span>
+                </div>
               </div>
             </div>
           </div>
@@ -2284,39 +2507,81 @@
 
       <!-- 패널 1: 수량 조건부 할인 -->
       <div class="feat-panel" data-panel="1">
-        <div class="feature-content">
-          <span class="feature-tag">전략적 할인 설계</span>
-          <h3>수량 조건부 할인 —<br/>객단가를 높이는 구조</h3>
-          <p>N개 이상 구매 시 금액·퍼센트 할인을 자동 적용합니다.
-          카테고리·브랜드·상품군 단위로 할인 범위를 세밀하게 설정해
-          객단가를 높이는 전략을 손쉽게 운영합니다.</p>
-          <ul class="feature-points">
-            <li>금액 할인(원) · 비율 할인(%) 선택 적용</li>
-            <li>상품 / 카테고리 / 브랜드 단위 범위 지정</li>
-            <li>다수의 프로모션 동시 운영 가능</li>
-          </ul>
+        <div class="feature-left">
+          <div class="feature-content">
+            <span class="feature-tag">전략적 할인 설계</span>
+            <h3>수량 조건부 할인 —<br/>객단가를 높이는 구조</h3>
+            <p>N개 이상 구매 시 금액·퍼센트 할인을 자동 적용합니다.
+            카테고리·브랜드·상품군 단위로 할인 범위를 세밀하게 설정해
+            객단가를 높이는 전략을 손쉽게 운영합니다.</p>
+            <ul class="feature-points">
+              <li>금액 할인(원) · 비율 할인(%) 선택 적용</li>
+              <li>상품 / 카테고리 / 브랜드 단위 범위 지정</li>
+              <li>다수의 프로모션 동시 운영 가능</li>
+            </ul>
+          </div>
         </div>
-        <div class="feature-screenshot">
-          <div class="preview-flow">
-            <div class="flow-step">
-              <div class="flow-icon-wrap">🛒</div>
-              <div class="flow-body">
-                <div class="flow-label">고객 행동</div>
-                <div class="flow-desc">프로모션이 적용된 상품<br/>5개 이상 장바구니에 담기</div>
+        <div class="feature-visual">
+          <div class="n1-visual">
+            <div class="n1-phase-card" id="qtyPhaseCard">
+              <div class="n1-pc-icon" id="qtyPcIcon">🛒</div>
+              <div class="n1-pc-body">
+                <div class="n1-pc-label" id="qtyPcLabel">고객 행동</div>
+                <div class="n1-pc-desc" id="qtyPcDesc">상품 5개 이상 장바구니에 담기</div>
+              </div>
+              <div class="n1-pc-steps">
+                <span class="n1-dot active" id="qtyDot1"></span>
+                <span class="n1-dot" id="qtyDot2"></span>
+                <span class="n1-dot" id="qtyDot3"></span>
               </div>
             </div>
-            <div class="flow-step">
-              <div class="flow-icon-wrap">⚡</div>
-              <div class="flow-body">
-                <div class="flow-label">할인킷 감지</div>
-                <div class="flow-desc">수량 조건(5개 이상 구매 시 10% 할인)<br/>충족 자동 인식</div>
+            <div class="n1-mock-screen">
+              <div class="n1-mock-header">
+                장바구니
+                <span class="n1-hd-count">총 <span id="qtyCount">0</span>개 상품</span>
               </div>
-            </div>
-            <div class="flow-step result">
-              <div class="flow-icon-wrap">💸</div>
-              <div class="flow-body">
-                <div class="flow-label">결과</div>
-                <div class="flow-desc">결제 금액에서 10% 즉시 할인<br/>자동 적용</div>
+              <div class="n1-mock-item" id="qtyItem1">
+                <div class="n1-mi-thumb">🧴</div>
+                <div class="n1-mi-info">
+                  <div class="n1-mi-name">핸드워시 세트</div>
+                  <div class="n1-mi-spec">300ml · 수량 2개</div>
+                </div>
+                <div class="n1-mi-right">
+                  <span class="n1-mi-price">20,000원</span>
+                </div>
+              </div>
+              <div class="n1-mock-item" id="qtyItem2">
+                <div class="n1-mi-thumb">🚿</div>
+                <div class="n1-mi-info">
+                  <div class="n1-mi-name">천연 바디워시</div>
+                  <div class="n1-mi-spec">500ml · 수량 2개</div>
+                </div>
+                <div class="n1-mi-right">
+                  <span class="n1-mi-price">30,000원</span>
+                </div>
+              </div>
+              <div class="n1-mock-item" id="qtyItem3">
+                <div class="n1-mi-thumb">💆</div>
+                <div class="n1-mi-info">
+                  <div class="n1-mi-name">두피케어 샴푸</div>
+                  <div class="n1-mi-spec">400ml · 수량 1개</div>
+                </div>
+                <div class="n1-mi-right">
+                  <span class="n1-mi-price">20,000원</span>
+                </div>
+              </div>
+              <div class="n1-mock-summary" id="qtySummary">
+                <div class="n1-sum-row">
+                  <span>총 상품금액</span><span>70,000원</span>
+                </div>
+                <div class="n1-sum-row n1-sum-discount" id="qtyDiscRow">
+                  <span>총 할인금액</span><span>7,000원</span>
+                </div>
+                <div class="n1-sum-sub" id="qtyDiscSub">└ 5개 이상 구매 10% 할인</div>
+                <div class="n1-sum-total">
+                  <span>결제예정금액</span>
+                  <span class="n1-total-amount" id="qtyTotal">70,000원</span>
+                </div>
               </div>
             </div>
           </div>
@@ -2325,39 +2590,77 @@
 
       <!-- 패널 2: 실시간 정책 변경 -->
       <div class="feat-panel" data-panel="2">
-        <div class="feature-content">
-          <span class="feature-tag">운영 편의성</span>
-          <h3>실시간 정책 변경 —<br/>유동적인 프로모션 운영</h3>
-          <p>재고 상황이나 판매 추이에 따라 프로모션 조건을 즉시 수정합니다.
-          별도 개발 없이 설정 화면에서 직접 변경할 수 있어
-          빠른 의사결정을 그대로 실행에 옮길 수 있습니다.</p>
-          <ul class="feature-points">
-            <li>저장 즉시 쇼핑몰에 실시간 반영</li>
-            <li>프로모션 기간 · 조건 · 대상 즉시 수정</li>
-            <li>캠페인 일시중지 및 재개 원클릭</li>
-          </ul>
+        <div class="feature-left">
+          <div class="feature-content">
+            <span class="feature-tag">운영 편의성</span>
+            <h3>실시간 정책 변경 —<br/>유동적인 프로모션 운영</h3>
+            <p>재고 상황이나 판매 추이에 따라 프로모션 조건을 즉시 수정합니다.
+            별도 개발 없이 설정 화면에서 직접 변경할 수 있어
+            빠른 의사결정을 그대로 실행에 옮길 수 있습니다.</p>
+            <ul class="feature-points">
+              <li>저장 즉시 쇼핑몰에 실시간 반영</li>
+              <li>프로모션 기간 · 조건 · 대상 즉시 수정</li>
+              <li>캠페인 일시중지 및 재개 원클릭</li>
+            </ul>
+          </div>
         </div>
-        <div class="feature-screenshot">
-          <div class="preview-flow">
-            <div class="flow-step">
-              <div class="flow-icon-wrap">⚠️</div>
-              <div class="flow-body">
-                <div class="flow-label">상황 발생</div>
-                <div class="flow-desc">재고 잔여 12개 — 소진 위기</div>
+        <div class="feature-visual">
+          <div class="n1-visual">
+            <div class="n1-phase-card" id="rtPhaseCard">
+              <div class="n1-pc-icon" id="rtPcIcon">⚠️</div>
+              <div class="n1-pc-body">
+                <div class="n1-pc-label" id="rtPcLabel">상황 발생</div>
+                <div class="n1-pc-desc" id="rtPcDesc">재고 잔여 12개 — 소진 위기</div>
+              </div>
+              <div class="n1-pc-steps">
+                <span class="n1-dot active" id="rtDot1"></span>
+                <span class="n1-dot" id="rtDot2"></span>
+                <span class="n1-dot" id="rtDot3"></span>
               </div>
             </div>
-            <div class="flow-step">
-              <div class="flow-icon-wrap">✏️</div>
-              <div class="flow-body">
-                <div class="flow-label">운영자 대응</div>
-                <div class="flow-desc">구매 조건 3개 → 2개로<br/>설정 화면에서 즉시 수정</div>
-              </div>
-            </div>
-            <div class="flow-step result">
-              <div class="flow-icon-wrap">✅</div>
-              <div class="flow-body">
-                <div class="flow-label">결과</div>
-                <div class="flow-desc">변경 즉시 쇼핑몰 반영<br/>프로모션 중단 없이 지속</div>
+            <div class="n1-mock-screen">
+              <div class="n1-mock-header" id="rtScreenHeader">재고 현황</div>
+              <div class="rt-screens-wrap">
+                <!-- Screen 1: 재고 현황 -->
+                <div class="rt-screen rt-active" id="rtScreen1">
+                  <div class="rt-s1-content">
+                    <div class="rt-stock-row">
+                      <span class="rt-stock-name">오버핏 데님 자켓</span>
+                      <span class="rt-stock-count">잔여 12개</span>
+                    </div>
+                    <div class="rt-alert-msg" id="rtAlertMsg">⚠️ 재고 소진 위기 — 프로모션 조건 조정 필요</div>
+                  </div>
+                </div>
+                <!-- Screen 2: 프로모션 편집 -->
+                <div class="rt-screen" id="rtScreen2">
+                  <div class="rt-promo-card-item">
+                    <div class="rt-promo-top">
+                      <span class="rt-promo-type">🎁 N+1 증정</span>
+                      <span class="rt-promo-live">진행중</span>
+                    </div>
+                    <div class="rt-promo-title">여름맞이 BIG 세일</div>
+                  </div>
+                  <div class="rt-edit-section">
+                    <div class="rt-edit-label">증정 수량 조건</div>
+                    <div class="rt-edit-control">
+                      <div class="rt-edit-btn">−</div>
+                      <span class="rt-edit-num" id="rtCondVal">3</span>
+                      <div class="rt-edit-btn">+</div>
+                      <span style="font-size:12px;color:var(--muted);">개 구매 시 +1증정</span>
+                    </div>
+                    <div class="rt-edit-desc" id="rtEditDesc">3 + 1 → 3개 사면 동일 상품 1개 증정</div>
+                  </div>
+                  <div class="rt-save-btn" id="rtSaveBtn">저장하기</div>
+                </div>
+                <!-- Screen 3: 쇼핑몰 반영 (팝업) -->
+                <div class="rt-screen rt-popup-screen" id="rtScreen3">
+                  <div class="rt-popup-card">
+                    <div class="rt-popup-emoji">🎉</div>
+                    <div class="rt-popup-title">여름맞이 BIG 세일</div>
+                    <div class="rt-popup-desc">오버핏 데님 자켓<br/><strong>2개 구매 시 1개 무료!</strong></div>
+                    <div class="rt-saved" id="rtSaved">✅ 쇼핑몰 즉시 반영 완료</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -2873,48 +3176,218 @@
     observer.observe(el);
   });
 
-// feature 탭 전환 + flow 순차 페이드인
+// feature 탭 클릭 → 스크롤 + 스크롤 위치 기반 탭 활성화
 (function() {
   var tabs = document.querySelectorAll('.feat-tab');
   var panels = document.querySelectorAll('.feat-panel');
-  var animTimer = null;
-
-  function animateFlow(panel) {
-    if (animTimer) clearTimeout(animTimer);
-    var steps = panel.querySelectorAll('.flow-step');
-    steps.forEach(function(s) {
-      s.style.transition = 'none';
-      s.style.opacity = '0';
-      s.style.transform = 'translateY(12px)';
-    });
-    panel.offsetHeight; // reflow
-    steps.forEach(function(step, i) {
-      setTimeout(function() {
-        step.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-        step.style.opacity = '1';
-        step.style.transform = 'translateY(0)';
-      }, i * 400);
-    });
-    var delay = steps.length * 400 + 4500;
-    animTimer = setTimeout(function() {
-      if (panel.classList.contains('active')) animateFlow(panel);
-    }, delay);
-  }
 
   tabs.forEach(function(tab) {
     tab.addEventListener('click', function() {
       var idx = this.dataset.tab;
-      tabs.forEach(function(t) { t.classList.remove('active'); });
-      panels.forEach(function(p) { p.classList.remove('active'); });
-      this.classList.add('active');
-      var activePanel = document.querySelector('.feat-panel[data-panel="' + idx + '"]');
-      activePanel.classList.add('active');
-      animateFlow(activePanel);
+      var target = document.querySelector('.feat-panel[data-panel="' + idx + '"]');
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
 
-  var initPanel = document.querySelector('.feat-panel.active');
-  if (initPanel) animateFlow(initPanel);
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var idx = entry.target.dataset.panel;
+        tabs.forEach(function(t) { t.classList.remove('active'); });
+        var activeTab = document.querySelector('.feat-tab[data-tab="' + idx + '"]');
+        if (activeTab) activeTab.classList.add('active');
+      }
+    });
+  }, { threshold: 0.25, rootMargin: '-10% 0px -55% 0px' });
+
+  panels.forEach(function(panel) { observer.observe(panel); });
+})();
+
+// N+1 인포그래픽 애니메이션
+(function() {
+  var card       = document.getElementById('n1PhaseCard');
+  var pcIcon     = document.getElementById('n1PcIcon');
+  var pcLabel    = document.getElementById('n1PcLabel');
+  var pcDesc     = document.getElementById('n1PcDesc');
+  var dots       = [document.getElementById('n1Dot1'), document.getElementById('n1Dot2'), document.getElementById('n1Dot3')];
+  var count      = document.getElementById('n1Count');
+  var item1      = document.getElementById('n1Item1');
+  var item2      = document.getElementById('n1Item2');
+  var freeTag    = document.getElementById('n1FreeTag');
+  var item1Price = document.getElementById('n1Item1Price');
+  var summary    = document.getElementById('n1Summary');
+  var discRow    = document.getElementById('n1DiscountRow');
+  var discSub    = document.getElementById('n1DiscountSub');
+  var total      = document.getElementById('n1Total');
+  if (!card) return;
+
+  var timers = [];
+  function t(fn, ms) { timers.push(setTimeout(fn, ms)); }
+
+  function setDots(step) {
+    dots.forEach(function(d, i) { if (d) d.classList.toggle('active', i < step); });
+  }
+
+  function setPhase(icon, label, desc, step) {
+    card.style.opacity = '0';
+    setTimeout(function() {
+      pcIcon.textContent = icon;
+      pcLabel.textContent = label;
+      pcDesc.textContent = desc;
+      setDots(step);
+      card.style.opacity = '1';
+    }, 200);
+  }
+
+  function reset() {
+    timers.forEach(clearTimeout); timers = [];
+    card.style.opacity = '1';
+    pcIcon.textContent = '🛒';
+    pcLabel.textContent = '고객 행동';
+    pcDesc.textContent = '상품 3개 장바구니에 담기';
+    setDots(1);
+    count.textContent = '0';
+    [item1, item2, summary, discRow, discSub].forEach(function(el) { el.classList.remove('n1-in'); });
+    freeTag.classList.remove('n1-in');
+    item1Price.style.textDecoration = '';
+    item1Price.style.opacity = '';
+    item1Price.style.fontSize = '';
+    total.textContent = '140,000원';
+  }
+
+  function run() {
+    reset();
+    // 1단계: 고객 행동 — 자켓 1개, 청바지 2개 순차 등장
+    t(function() { item1.classList.add('n1-in'); count.textContent = '1'; }, 500);
+    t(function() { item2.classList.add('n1-in'); count.textContent = '3'; }, 2000);
+    // 2단계: 할인킷 감지 — 주문금액 + 할인 표시
+    t(function() { setPhase('⚡', '할인킷 감지', '2+1 조건 충족 자동 인식', 2); }, 3300);
+    t(function() { summary.classList.add('n1-in'); }, 3600);
+    t(function() { discRow.classList.add('n1-in'); discSub.classList.add('n1-in'); }, 4200);
+    t(function() { total.textContent = '100,000원'; }, 4900);
+    // 3단계: 결과 — 가장 저렴한 자켓 가격 0원 처리
+    t(function() { setPhase('🎁', '결과', '가장 저렴한 상품 자동 무료 증정', 3); }, 5800);
+    t(function() {
+      freeTag.classList.add('n1-in');
+      item1Price.style.textDecoration = 'line-through';
+      item1Price.style.opacity = '0.35';
+      item1Price.style.fontSize = '10px';
+    }, 6400);
+    // 루프
+    t(run, 10500);
+  }
+
+  run();
+})();
+
+// 수량 조건부 할인 인포그래픽 애니메이션
+(function() {
+  var card    = document.getElementById('qtyPhaseCard');
+  var pcIcon  = document.getElementById('qtyPcIcon');
+  var pcLabel = document.getElementById('qtyPcLabel');
+  var pcDesc  = document.getElementById('qtyPcDesc');
+  var dots    = [document.getElementById('qtyDot1'), document.getElementById('qtyDot2'), document.getElementById('qtyDot3')];
+  var count   = document.getElementById('qtyCount');
+  var item1   = document.getElementById('qtyItem1');
+  var item2   = document.getElementById('qtyItem2');
+  var item3   = document.getElementById('qtyItem3');
+  var summary = document.getElementById('qtySummary');
+  var discRow = document.getElementById('qtyDiscRow');
+  var discSub = document.getElementById('qtyDiscSub');
+  var total   = document.getElementById('qtyTotal');
+  if (!card) return;
+
+  var timers = [];
+  function t(fn, ms) { timers.push(setTimeout(fn, ms)); }
+  function setDots(step) { dots.forEach(function(d, i) { if (d) d.classList.toggle('active', i < step); }); }
+  function setPhase(icon, label, desc, step) {
+    card.style.opacity = '0';
+    setTimeout(function() { pcIcon.textContent = icon; pcLabel.textContent = label; pcDesc.textContent = desc; setDots(step); card.style.opacity = '1'; }, 200);
+  }
+
+  function reset() {
+    timers.forEach(clearTimeout); timers = [];
+    card.style.opacity = '1';
+    pcIcon.textContent = '🛒'; pcLabel.textContent = '고객 행동'; pcDesc.textContent = '다양한 상품 5개 장바구니에 담기';
+    setDots(1); count.textContent = '0';
+    [item1, item2, item3, summary, discRow, discSub].forEach(function(el) { if (el) el.classList.remove('n1-in'); });
+    total.textContent = '70,000원';
+  }
+
+  function run() {
+    reset();
+    t(function() { item1.classList.add('n1-in'); count.textContent = '2'; }, 500);
+    t(function() { item2.classList.add('n1-in'); count.textContent = '4'; }, 1600);
+    t(function() { item3.classList.add('n1-in'); count.textContent = '5'; }, 2500);
+    t(function() { setPhase('⚡', '할인킷 감지', '5개 이상 구매 10% 할인 조건 충족', 2); }, 3500);
+    t(function() { summary.classList.add('n1-in'); }, 3800);
+    t(function() { discRow.classList.add('n1-in'); discSub.classList.add('n1-in'); }, 4400);
+    t(function() { total.textContent = '63,000원'; }, 5100);
+    t(function() { setPhase('💸', '결과', '결제 금액에서 10% 즉시 할인 적용', 3); }, 6000);
+    t(run, 10500);
+  }
+  run();
+})();
+
+// 실시간 정책 변경 인포그래픽 애니메이션
+(function() {
+  var card      = document.getElementById('rtPhaseCard');
+  var pcIcon    = document.getElementById('rtPcIcon');
+  var pcLabel   = document.getElementById('rtPcLabel');
+  var pcDesc    = document.getElementById('rtPcDesc');
+  var hdr       = document.getElementById('rtScreenHeader');
+  var dots      = [document.getElementById('rtDot1'), document.getElementById('rtDot2'), document.getElementById('rtDot3')];
+  var alertMsg  = document.getElementById('rtAlertMsg');
+  var condVal   = document.getElementById('rtCondVal');
+  var editDesc  = document.getElementById('rtEditDesc');
+  var saveBtn   = document.getElementById('rtSaveBtn');
+  var saved     = document.getElementById('rtSaved');
+  var screens   = [document.getElementById('rtScreen1'), document.getElementById('rtScreen2'), document.getElementById('rtScreen3')];
+  if (!card) return;
+
+  var timers = [];
+  function t(fn, ms) { timers.push(setTimeout(fn, ms)); }
+  function setDots(step) { dots.forEach(function(d, i) { if (d) d.classList.toggle('active', i < step); }); }
+  function setPhase(icon, label, desc, step) {
+    card.style.opacity = '0';
+    setTimeout(function() { pcIcon.textContent = icon; pcLabel.textContent = label; pcDesc.textContent = desc; setDots(step); card.style.opacity = '1'; }, 200);
+  }
+  function showScreen(idx, headerText) {
+    screens.forEach(function(s) { if (s) s.classList.remove('rt-active'); });
+    if (idx === 2 && screens[1]) screens[1].classList.add('rt-active');
+    if (screens[idx]) screens[idx].classList.add('rt-active');
+    if (hdr) hdr.textContent = headerText;
+  }
+
+  function reset() {
+    timers.forEach(clearTimeout); timers = [];
+    card.style.opacity = '1';
+    pcIcon.textContent = '⚠️'; pcLabel.textContent = '상황 발생'; pcDesc.textContent = '재고 잔여 12개 — 소진 위기';
+    setDots(1);
+    alertMsg.classList.remove('n1-in');
+    saveBtn.classList.remove('n1-in');
+    saved.classList.remove('n1-in');
+    condVal.textContent = '3';
+    editDesc.textContent = '3 + 1 → 3개 사면 동일 상품 1개 증정';
+    showScreen(0, '재고 현황');
+  }
+
+  function run() {
+    reset();
+    // Phase 1: 재고 위기 알림
+    t(function() { alertMsg.classList.add('n1-in'); }, 700);
+    // Phase 2: 관리자 화면 → 프로모션 수정
+    t(function() { setPhase('✏️', '운영자 대응', '진행중 프로모션 접근 → 정책 수정', 2); }, 2500);
+    t(function() { showScreen(1, '프로모션 관리'); }, 2800);
+    t(function() { saveBtn.classList.add('n1-in'); }, 3500);
+    t(function() { condVal.textContent = '2'; editDesc.textContent = '2 + 1 → 2개 사면 동일 상품 1개 증정'; }, 4300);
+    // Phase 3: 쇼핑몰 화면으로 전환
+    t(function() { setPhase('✅', '결과', '쇼핑몰 화면으로 전환 — 즉시 반영', 3); }, 5800);
+    t(function() { showScreen(2, '프로모션 관리'); }, 6100);
+    t(function() { saved.classList.add('n1-in'); }, 6600);
+    t(run, 11000);
+  }
+  run();
 })();
 
 // pain-link → feat-section 탭 이동
