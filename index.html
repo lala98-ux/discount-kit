@@ -326,7 +326,65 @@
     .app-tip-dashboard { top: 65px; left: auto; right: calc(100% + 10px); }
     .app-tip-addpromo  { top: 210px; left: -60px; right: auto; }
     .app-tip-promo-nav { top: 130px; left: auto; right: calc(100% + 10px); }
-    @media (max-width: 768px) { .app-tooltip { display: none !important; } }
+    @media (min-width: 769px) and (max-width: 1400px) {
+      .app-tooltip::before {
+        right: auto; left: -9px;
+        border-left: none; border-right: 8px solid #E8E4F5;
+        border-top: 7px solid transparent; border-bottom: 7px solid transparent;
+      }
+      .app-tooltip::after {
+        right: auto; left: -6.5px;
+        border-left: none; border-right: 7px solid #fff;
+        border-top: 6px solid transparent; border-bottom: 6px solid transparent;
+      }
+      .app-tip-dashboard { top: 10px; left: 8px; right: auto; }
+      .app-tip-dashboard::before {
+        left: 24px; right: auto; top: auto; bottom: -9px; transform: none;
+        border-top: 8px solid #E8E4F5; border-bottom: none;
+        border-left: 7px solid transparent; border-right: 7px solid transparent;
+      }
+      .app-tip-dashboard::after {
+        left: 24px; right: auto; top: auto; bottom: -6.5px; transform: none;
+        border-top: 7px solid #fff; border-bottom: none;
+        border-left: 6px solid transparent; border-right: 6px solid transparent;
+      }
+      .app-tip-promo-nav { top: 180px; left: 8px; right: auto; }
+      .app-tip-promo-nav::before {
+        left: 24px; right: auto; top: -9px; bottom: auto; transform: none;
+        border-bottom: 8px solid #E8E4F5; border-top: none;
+        border-left: 7px solid transparent; border-right: 7px solid transparent;
+      }
+      .app-tip-promo-nav::after {
+        left: 24px; right: auto; top: -6.5px; bottom: auto; transform: none;
+        border-bottom: 7px solid #fff; border-top: none;
+        border-left: 6px solid transparent; border-right: 6px solid transparent;
+      }
+      .app-tip-addpromo::before {
+        left: auto; right: -9px;
+        border-right: none; border-left: 8px solid #E8E4F5;
+        border-top: 7px solid transparent; border-bottom: 7px solid transparent;
+      }
+      .app-tip-addpromo::after {
+        left: auto; right: -6.5px;
+        border-right: none; border-left: 7px solid #fff;
+        border-top: 6px solid transparent; border-bottom: 6px solid transparent;
+      }
+    }
+    @media (max-width: 768px) {
+      .app-tooltip::before {
+        right: auto; left: 20px; top: -9px; transform: none;
+        border-top: none; border-right: 7px solid transparent;
+        border-bottom: 8px solid #E8E4F5; border-left: 7px solid transparent;
+      }
+      .app-tooltip::after {
+        right: auto; left: 20px; top: -6.5px; transform: none;
+        border-top: none; border-right: 6px solid transparent;
+        border-bottom: 7px solid #fff; border-left: 6px solid transparent;
+      }
+      .app-tip-dashboard { top: 100px; left: 23%; right: auto; }
+      .app-tip-promo-nav { top: 100px; left: 23%; right: auto; }
+      .app-tip-addpromo  { top: 340px; left: 23%; right: auto; }
+    }
     .app-sidebar {
       width: 80px;
       background: #fff;
@@ -908,6 +966,9 @@
       scroll-margin-top: 80px;
     }
     .feat-panel + .feat-panel { margin-top: 80px; padding-top: 64px; border-top: 1px solid var(--border); }
+    @media (min-width: 1025px) {
+      .feat-panel { grid-template-columns: 2fr 3fr; }
+    }
     .feat-panel-nav { grid-column: 1 / -1; margin-bottom: 0; }
     .feat-panel-tab {
       background: none; border: none;
@@ -1199,6 +1260,43 @@
       opacity: 0; transition: opacity 0.3s ease;
     }
     .n1-sum-sub.n1-in { opacity: 1; }
+    #qtyVisual { position: relative; }
+    #qtyPhaseCard { position: relative; z-index: 11; }
+    .qty-result-backdrop {
+      position: absolute; inset: 0;
+      background: rgba(15,10,30,0.45);
+      backdrop-filter: blur(2px);
+      border-radius: 12px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: 9;
+      pointer-events: none;
+    }
+    .qty-result-backdrop.qty-popup-in { opacity: 1; }
+    .qty-result-popup {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -44%) scale(0.96);
+      width: 82%;
+      background: #fff;
+      border-radius: 14px;
+      border: 1.5px solid #E8E4F5;
+      box-shadow: 0 8px 32px rgba(108,62,244,0.22), 0 2px 8px rgba(0,0,0,0.08);
+      padding: 14px 16px;
+      opacity: 0;
+      transition: opacity 0.45s ease, transform 0.45s ease;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .qty-result-popup.qty-popup-in { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    .qty-popup-header { font-size: 13px; font-weight: 800; color: #0F0A1E; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #F0EDF8; }
+    .qty-popup-row { display: flex; justify-content: space-between; font-size: 11px; color: #8B86A0; margin-bottom: 4px; }
+    .qty-popup-orig { text-decoration: line-through; }
+    .qty-popup-disc { color: #E53E3E; font-weight: 700; }
+    .qty-popup-divider { border-top: 1px solid #E8E4F5; margin: 8px 0; }
+    .qty-popup-total { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: #0F0A1E; }
+    .qty-popup-final { font-size: 15px; font-weight: 800; color: #6C3EF4; }
+    .qty-popup-save { margin-top: 10px; background: rgba(108,62,244,0.08); border-radius: 8px; padding: 6px 10px; font-size: 11px; font-weight: 700; color: #6C3EF4; text-align: center; }
     .n1-sum-total {
       display: flex; justify-content: space-between;
       font-size: 13px; font-weight: 700; color: var(--dark);
@@ -2460,7 +2558,7 @@
     </div>
     <div class="app-tooltip app-tip-dashboard" id="appTipDashboard">📊 대시보드도 클릭해보세요</div>
     <div class="app-tooltip app-tip-addpromo" id="appTipAddPromo">✨ 프로모션을 만들어보세요</div>
-    <div class="app-tooltip app-tip-promo-nav" id="appTipPromoNav">⚙ 할인 관리 클릭해보세요</div>
+    <div class="app-tooltip app-tip-promo-nav" id="appTipPromoNav">할인 관리를 클릭해보세요</div>
     </div>
   </div>
 </section>
@@ -2582,7 +2680,7 @@
                 <div class="n1-sum-row n1-sum-discount" id="n1DiscountRow">
                   <span>총 할인금액</span><span>40,000원</span>
                 </div>
-                <div class="n1-sum-sub" id="n1DiscountSub">└ 여름 시즌 2+1 행사&nbsp;&nbsp;40,000원</div>
+                <div class="n1-sum-sub" id="n1DiscountSub">└ 여름 시즌 2+1 행사</div>
                 <div class="n1-sum-total">
                   <span>결제예정금액</span>
                   <span class="n1-total-amount" id="n1Total">140,000원</span>
@@ -2617,7 +2715,7 @@
           </div>
         </div>
         <div class="feature-visual">
-          <div class="n1-visual">
+          <div class="n1-visual" id="qtyVisual">
             <div class="n1-phase-card" id="qtyPhaseCard">
               <div class="n1-pc-icon" id="qtyPcIcon">🛒</div>
               <div class="n1-pc-body">
@@ -2678,6 +2776,24 @@
                   <span class="n1-total-amount" id="qtyTotal">70,000원</span>
                 </div>
               </div>
+            </div>
+            <div class="qty-result-backdrop" id="qtyResultBackdrop"></div>
+            <div class="qty-result-popup" id="qtyResultPopup">
+              <div class="qty-popup-header">🎉 할인 적용 완료</div>
+              <div class="qty-popup-row">
+                <span class="qty-popup-key">정가</span>
+                <span class="qty-popup-orig">70,000원</span>
+              </div>
+              <div class="qty-popup-row">
+                <span class="qty-popup-key">10% 할인</span>
+                <span class="qty-popup-disc">-7,000원</span>
+              </div>
+              <div class="qty-popup-divider"></div>
+              <div class="qty-popup-total">
+                <span>최종 결제금액</span>
+                <span class="qty-popup-final">63,000원</span>
+              </div>
+              <div class="qty-popup-save">💰 정가 대비 7,000원 절약!</div>
             </div>
           </div>
         </div>
@@ -3172,6 +3288,19 @@
   }
 
   // 앱 목업 화면 전환 헬퍼
+  var mobileHideTimer = null;
+
+  function positionMobileTip(tipEl, targetEl, offset) {
+    if (!tipEl || !targetEl) return;
+    var heroVisual = document.querySelector('.hero-visual');
+    if (!heroVisual) return;
+    var tRect = targetEl.getBoundingClientRect();
+    var hRect = heroVisual.getBoundingClientRect();
+    tipEl.style.top  = (tRect.bottom - hRect.top + (offset || 8)) + 'px';
+    tipEl.style.left = (tRect.left - hRect.left) + 'px';
+    tipEl.style.right = 'auto';
+  }
+
   function showScreen(screenId, activeNavScreen) {
     document.querySelectorAll('.app-screen').forEach(s => s.classList.remove('active'));
     document.getElementById(screenId).classList.add('active');
@@ -3211,6 +3340,24 @@
     if (tipDash)     tipDash.classList.toggle('visible', isPromo);
     if (tipAdd)      tipAdd.classList.toggle('visible', isPromo);
     if (tipPromoNav) tipPromoNav.classList.toggle('visible', isDash);
+    if (window.innerWidth <= 768) {
+      var dashNav    = document.querySelector('.app-nav[data-screen="dashboard"]');
+      var promoNav   = document.querySelector('.app-nav[data-screen="promo"]');
+      var addSubText = document.querySelector('#btnAddPromo .app-add-sub');
+      if (isPromo && tipDash) positionMobileTip(tipDash, dashNav);
+      if (isPromo && tipAdd)  positionMobileTip(tipAdd,  addSubText, 20);
+      if (isDash  && tipPromoNav) positionMobileTip(tipPromoNav, promoNav);
+    }
+    if (window.innerWidth <= 1400) {
+      clearTimeout(mobileHideTimer);
+      if (isPromo || isDash) {
+        mobileHideTimer = setTimeout(function() {
+          [tipDash, tipAdd, tipPromoNav].forEach(function(t) {
+            if (t) t.classList.remove('visible');
+          });
+        }, 10000);
+      }
+    }
   }
 
   // 사이드바 네비 클릭
@@ -3231,7 +3378,33 @@
     var ta = document.getElementById('appTipAddPromo');
     if (td) td.classList.add('visible');
     if (ta) ta.classList.add('visible');
+    if (window.innerWidth <= 768) {
+      var dashNav    = document.querySelector('.app-nav[data-screen="dashboard"]');
+      var addSubText = document.querySelector('#btnAddPromo .app-add-sub');
+      if (td) positionMobileTip(td, dashNav);
+      if (ta) positionMobileTip(ta, addSubText, 20);
+    }
+    if (window.innerWidth <= 1400) {
+      clearTimeout(mobileHideTimer);
+      mobileHideTimer = setTimeout(function() {
+        [td, ta].forEach(function(t) { if (t) t.classList.remove('visible'); });
+      }, 10000);
+    }
   }, 900);
+
+  // 모바일: 리사이즈 시 툴팁 재배치
+  window.addEventListener('resize', function() {
+    if (window.innerWidth > 768) return;
+    var td = document.getElementById('appTipDashboard');
+    var ta = document.getElementById('appTipAddPromo');
+    var tn = document.getElementById('appTipPromoNav');
+    var dashNav    = document.querySelector('.app-nav[data-screen="dashboard"]');
+    var promoNav   = document.querySelector('.app-nav[data-screen="promo"]');
+    var addSubText = document.querySelector('#btnAddPromo .app-add-sub');
+    if (td && td.classList.contains('visible')) positionMobileTip(td, dashNav);
+    if (ta && ta.classList.contains('visible')) positionMobileTip(ta, addSubText, 20);
+    if (tn && tn.classList.contains('visible')) positionMobileTip(tn, promoNav);
+  });
 
   // 뒤로가기 / 취소 → 프로모션 관리 화면
   document.getElementById('btnBackToPromo').addEventListener('click', function() {
@@ -3302,8 +3475,13 @@
   tabs.forEach(function(tab) {
     tab.addEventListener('click', function() {
       var idx = this.dataset.tab;
-      var target = document.querySelector('.feat-panel[data-panel="' + idx + '"]');
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (idx === '0') {
+        var featSection = document.querySelector('.feat-section');
+        if (featSection) featSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        var target = document.querySelector('.feat-panel[data-panel="' + idx + '"]');
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     });
   });
 
@@ -3323,8 +3501,13 @@
   document.querySelectorAll('.feat-panel-tab').forEach(function(btn) {
     btn.addEventListener('click', function() {
       var idx = this.dataset.tab;
-      var target = document.querySelector('.feat-panel[data-panel="' + idx + '"]');
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (idx === '0') {
+        var featSection = document.querySelector('.feat-section');
+        if (featSection) featSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        var target = document.querySelector('.feat-panel[data-panel="' + idx + '"]');
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     });
   });
 })();
@@ -3419,8 +3602,10 @@
   var item3   = document.getElementById('qtyItem3');
   var summary = document.getElementById('qtySummary');
   var discRow = document.getElementById('qtyDiscRow');
-  var discSub = document.getElementById('qtyDiscSub');
-  var total   = document.getElementById('qtyTotal');
+  var discSub   = document.getElementById('qtyDiscSub');
+  var total     = document.getElementById('qtyTotal');
+  var popup     = document.getElementById('qtyResultPopup');
+  var backdrop  = document.getElementById('qtyResultBackdrop');
   if (!card) return;
 
   var timers = [];
@@ -3437,6 +3622,8 @@
     pcIcon.textContent = '🛒'; pcLabel.textContent = '고객 행동'; pcDesc.textContent = '다양한 상품 5개 장바구니에 담기';
     setDots(1); count.textContent = '0';
     [item1, item2, item3, summary, discRow, discSub].forEach(function(el) { if (el) el.classList.remove('n1-in'); });
+    if (popup) popup.classList.remove('qty-popup-in');
+    if (backdrop) backdrop.classList.remove('qty-popup-in');
     total.textContent = '70,000원';
   }
 
@@ -3449,7 +3636,7 @@
     t(function() { summary.classList.add('n1-in'); }, 3800);
     t(function() { discRow.classList.add('n1-in'); discSub.classList.add('n1-in'); }, 4400);
     t(function() { total.textContent = '63,000원'; }, 5100);
-    t(function() { setPhase('💸', '결과', '결제 금액에서 10% 즉시 할인 적용', 3); }, 6000);
+    t(function() { setPhase('💸', '결과', '결제 금액에서 10% 즉시 할인 적용', 3); if (backdrop) backdrop.classList.add('qty-popup-in'); if (popup) popup.classList.add('qty-popup-in'); }, 6000);
     t(run, 10500);
   }
   run();
