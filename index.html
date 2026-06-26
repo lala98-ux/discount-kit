@@ -62,7 +62,7 @@
       text-decoration: none;
     }
     .logo-img {
-      height: 22px;
+      height: 40px;
       width: auto;
       display: block;
     }
@@ -1835,7 +1835,7 @@
       color: rgba(255,255,255,0.9);
     }
     .footer-logo-img {
-      height: 20px;
+      height: 36px;
       width: auto;
       display: block;
     }
@@ -3210,7 +3210,7 @@
       <span class="footer-logo-sep">|</span>
       할인킷
     </div>
-    <div class="footer-text">© 2026 셀킷. All rights reserved.</div>
+    <div class="footer-text">© 2026 sellkit. All rights reserved.</div>
   </div>
 </footer>
 
@@ -4065,7 +4065,8 @@ document.querySelectorAll('.pain-link').forEach(function(btn) {
 <div id="devColorPanel">
   <div class="dev-panel-label">Dev · 컬러 프리뷰</div>
   <div class="dev-chips">
-    <button class="dev-chip dev-active"  data-brand="#6C3EF4" data-light="#EDE9FA" style="background:#6C3EF4;" title="기본 (보라)"></button>
+    <button class="dev-chip"             data-brand="#6C3EF4" data-light="#EDE9FA" style="background:#6C3EF4;" title="기본 (보라)"></button>
+    <button class="dev-chip dev-active"  data-brand="purple-accent" data-light="#EDE9FA" style="background:linear-gradient(135deg,#6C3EF4 50%,#EC0B65 50%);" title="보라+핑크 강조"></button>
     <button class="dev-chip"             data-brand="#EC0B65" data-light="#FDDCEC" style="background:#EC0B65;" title="#EC0B65 핑크"></button>
     <button class="dev-chip"             data-brand="#36B4F1" data-light="#D6EEF9" style="background:#36B4F1;" title="#36B4F1 블루"></button>
     <button class="dev-chip"             data-brand="#FFB362" data-light="#FFF0DE" style="background:#FFB362;" title="#FFB362 오렌지"></button>
@@ -4078,7 +4079,7 @@ document.querySelectorAll('.pain-link').forEach(function(btn) {
   var chips = document.querySelectorAll('.dev-chip');
   var comboStyleEl = null;
   var overrideStyleEl = null;
-  var lockedBrand = '#6C3EF4';
+  var lockedBrand = 'purple-accent';
   var lockedLight = '#EDE9FA';
   var lockedCombo = false;
 
@@ -4241,27 +4242,109 @@ document.querySelectorAll('.pain-link').forEach(function(btn) {
     clearCombo(); clearOverride();
     var root = document.documentElement;
     if (isCombo) {
+      var purplePal = getPal('#6C3EF4');
       var pinkPal = getPal('#EC0B65');
-      // 루트 기본: 핑크 (보라 완전 제거)
-      root.style.setProperty('--brand', '#EC0B65');
-      root.style.setProperty('--brand-light', '#FDDCEC');
-      root.style.setProperty('--brand-dark', pinkPal.dark);
-      root.style.setProperty('--brand-mid', pinkPal.mid);
-      root.style.setProperty('--brand-rgb', '236,11,101');
-      var comboDefs = [
-        {scope:'.hero,.pain',      c:'#EC0B65', l:'#FDDCEC', pal:pinkPal},
-        {scope:'.feat-section',    c:'#36B4F1', l:'#D6EEF9', pal:getPal('#36B4F1')},
-        {scope:'.usecase,.pricing',c:'#FFB362', l:'#FFF0DE', pal:getPal('#FFB362')},
-      ];
-      // 1단계: 전역 핑크 오버라이드 (하드코딩 요소 전체 핑크로)
-      var comboCSS = buildOverrideCSS('#EC0B65', '#FDDCEC', pinkPal);
-      // 2단계: 섹션별 CSS 변수 + 스코프 오버라이드 (더 높은 우선순위로 덮어씀)
-      comboDefs.forEach(function(d) {
-        comboCSS += d.scope+'{--brand:'+d.c+';--brand-light:'+d.l+'}';
-        comboCSS += scopeOverride(d.scope, d.c, d.l, d.pal);
-      });
+      var pinkRgb = hexToRgb('#EC0B65');
+      function raP(a) { return 'rgba('+pinkRgb+','+a+')'; }
+      // 루트 기본: 보라 (배경·서피스)
+      root.style.setProperty('--brand', '#6C3EF4');
+      root.style.setProperty('--brand-light', '#EDE9FA');
+      root.style.setProperty('--brand-dark', purplePal.dark);
+      root.style.setProperty('--brand-mid', purplePal.mid);
+      root.style.setProperty('--brand-rgb', hexToRgb('#6C3EF4'));
+      // 1단계: 전역 보라 오버라이드 (배경·서피스·그림자)
+      var comboCSS = buildOverrideCSS('#6C3EF4', '#EDE9FA', purplePal);
+      // 2단계: 버튼·강조 요소만 핑크로 덮어씌움
+      comboCSS += [
+        '.nav-cta,.nav-cta:hover{background:#EC0B65!important}',
+        '.cta-btn{background:#EC0B65!important;box-shadow:0 8px 32px '+raP(0.3)+'!important}',
+        '.cta-btn:hover{background:#EC0B65!important;box-shadow:0 12px 40px '+raP(0.4)+'!important}',
+        '.return-admin-btn,.save-modal-icon,.save-modal-btn,.create-save,.result-mileage-btn,.cart-order-btn.dark,.cart-toast,.dash-pBtn.on,.tier-btn.active-btn,.n1-num,.tier-num,.result-anno-q{background:#EC0B65!important}',
+        '.cart-order-btn.dark{box-shadow:0 2px 8px '+raP(0.35)+'!important}',
+        '.app-toggle:not(.off){background:#EC0B65!important}',
+        '.app-add-circle::before,.app-add-circle::after{background:#EC0B65!important}',
+        '.app-nav.active .app-nav-text,.app-nav[data-screen]:hover .app-nav-text,.app-add-title,.txt-brand,.n1-label,.result-go,.result-detail-link,.result-order-discount,.cart-sum-total-val,.qty-popup-final,.qty-popup-save,.create-tag,.create-back,.cart-sum-sub-row,.result-cart-val.final{color:#EC0B65!important}',
+        '.result-popup-amount{color:'+pinkPal.mid+'!important}',
+        '.app-tab.on{color:#EC0B65!important;border-bottom-color:#EC0B65!important}',
+        '.badge-sch{color:#EC0B65!important;border-color:#EC0B65!important;background:#FDDCEC!important}',
+        '.result-anno{background:#FDDCEC!important}',
+        '.create-option.selected,.product-change-btn{border-color:#EC0B65!important}',
+        '.product-change-btn{color:#EC0B65!important}',
+        '@keyframes returnPulse{0%,100%{box-shadow:0 0 0 0 '+raP(0.7)+';transform:scale(1)}50%{box-shadow:0 0 0 7px '+raP(0)+';transform:scale(1.05)}}',
+        '@keyframes savePulse{0%,100%{box-shadow:0 0 0 0 '+raP(0.55)+'}60%{box-shadow:0 0 0 10px '+raP(0)+'}}',
+        '@keyframes freePulse{0%{transform:scale(1);box-shadow:0 0 0 0 '+raP(0.5)+'}35%{transform:scale(1.55);box-shadow:0 0 0 10px '+raP(0)+'}65%{transform:scale(0.92)}100%{transform:scale(1);box-shadow:0 0 0 0 '+raP(0)+'}}',
+      ].join('');
       comboStyleEl = document.createElement('style');
       comboStyleEl.textContent = comboCSS;
+      document.head.appendChild(comboStyleEl);
+    } else if (brand === 'purple-accent') {
+      var purpleAccPal = getPal('#6C3EF4');
+      var paRgb = hexToRgb('#EC0B65');
+      function raPA(a) { return 'rgba('+paRgb+','+a+')'; }
+      root.style.setProperty('--brand', '#6C3EF4');
+      root.style.setProperty('--brand-light', '#EDE9FA');
+      root.style.setProperty('--brand-dark', purpleAccPal.dark);
+      root.style.setProperty('--brand-mid', purpleAccPal.mid);
+      root.style.setProperty('--brand-rgb', hexToRgb('#6C3EF4'));
+      var accentCSS = buildOverrideCSS('#6C3EF4', '#EDE9FA', purpleAccPal);
+      accentCSS += [
+        '.logo-product{color:#EC0B65!important}',
+        '.nav-cta{background:#EC0B65!important}',
+        '.nav-cta:hover{background:#C0084F!important}',
+        '.hero-eyebrow{color:#EC0B65!important;background:#FDDCEC!important}',
+        '.hero-eyebrow-dot{background:#EC0B65!important}',
+        '.hero h1 em{color:#EC0B65!important}',
+        '.cta-btn{background:#EC0B65!important;box-shadow:0 8px 32px '+raPA(0.3)+'!important}',
+        '.cta-btn:hover{background:#C0084F!important;box-shadow:0 12px 40px '+raPA(0.4)+'!important}',
+        '.hero-preview-hint{color:#EC0B65!important;background:'+raPA(0.08)+'!important;border-color:'+raPA(0.22)+'!important}',
+        '.section-label{color:#EC0B65!important}',
+        '.pain-link{color:#EC0B65!important}',
+        '.pain-link:hover{color:#C0084F!important}',
+        '.pain-card:hover{box-shadow:0 8px 32px '+raPA(0.12)+',0 2px 12px '+raPA(0.06)+'!important;border-color:'+raPA(0.2)+'!important}',
+        '.feat-tab,.feat-panel-tab{color:#EC0B65!important}',
+        '.feat-tab:hover,.feat-panel-tab:hover{color:#EC0B65!important}',
+        '.feature-tag{color:#36B4F1!important}',
+        '.n1-num,.tier-num{background:#EC0B65!important}',
+        '.n1-free-tag{background:#EC0B65!important}',
+        '.n1-dot.active{background:#EC0B65!important}',
+        '.cart-sum-sub-row{color:#EC0B65!important;background:#FDDCEC!important}',
+        '.result-order-discount{color:#EC0B65!important}',
+        '.result-order-row{border-bottom-color:'+raPA(0.1)+'!important}',
+        '.result-order-wrap{border-color:'+raPA(0.15)+'!important}',
+        '.cart-sum-total-val{color:#EC0B65!important}',
+        '.n1-sum-discount{color:#EC0B65!important}',
+        '.n1-sum-sub{color:#EC0B65!important;background:#FDDCEC!important}',
+        '.n1-total-amount{color:#EC0B65!important}',
+        '.qty-popup-final{color:#EC0B65!important}',
+        '.qty-popup-save{color:#EC0B65!important;background:'+raPA(0.08)+'!important}',
+        '.result-anno{background:#FDDCEC!important;color:#C0084F!important}',
+        '.result-anno-q{background:#EC0B65!important}',
+        '.rt-popup-card{box-shadow:0 8px 32px rgba(0,0,0,0.12),0 2px 8px rgba(0,0,0,0.08)!important}',
+        '.qty-result-popup{box-shadow:0 8px 32px rgba(0,0,0,0.12),0 2px 8px rgba(0,0,0,0.08)!important}',
+        '.rt-promo-type{color:#EC0B65!important}',
+        '.rt-edit-num{color:#EC0B65!important}',
+        '.rt-save-btn{background:#EC0B65!important}',
+        '.rt-shop-tag{color:#EC0B65!important}',
+        '.rt-shop-desc strong{color:#EC0B65!important}',
+        '.usecase-industry{color:#EC0B65!important;background:#FDDCEC!important}',
+        '.usecase-feat-tag{color:#EC0B65!important;background:#FDDCEC!important}',
+        '.usecase-card:hover{border-color:'+raPA(0.3)+'!important;box-shadow:0 8px 32px '+raPA(0.08)+'!important}',
+        '.pricing-recommend{background:#EC0B65!important}',
+        '.pricing-monthly{color:#EC0B65!important}',
+        '.pricing-card.featured{border-color:#EC0B65!important;box-shadow:0 8px 40px '+raPA(0.15)+'!important}',
+        '.pricing-card.featured:hover{border-color:#EC0B65!important;box-shadow:0 8px 40px '+raPA(0.22)+'!important}',
+        '.check{background:#FDDCEC!important;color:#EC0B65!important}',
+        '.pricing-cta{background:#EC0B65!important}',
+        '.pricing-cta:hover{background:#C0084F!important}',
+        '.pricing-cta.outline{background:transparent!important;border-color:#EC0B65!important;color:#EC0B65!important}',
+        '.pricing-cta.outline:hover{background:#FDDCEC!important}',
+        '.final-cta{background:linear-gradient(135deg,#36B4F1 0%,#6C3EF4 20%,#EC0B65 40%,#EC0B65 60%,#6C3EF4 80%,#36B4F1 100%)!important}',
+        '.final-cta .section-sub{color:#fff!important}',
+        '.btn-ghost{color:#fff!important;border-color:#fff!important}',
+        '.btn-white{color:#EC0B65!important}',
+      ].join('');
+      comboStyleEl = document.createElement('style');
+      comboStyleEl.textContent = accentCSS;
       document.head.appendChild(comboStyleEl);
     } else {
       var pal = getPal(brand);
@@ -4292,6 +4375,7 @@ document.querySelectorAll('.pain-link').forEach(function(btn) {
       setActive(this);
     });
   });
+  applyColor('purple-accent', '#EDE9FA', false);
 })();
 </script>
 
