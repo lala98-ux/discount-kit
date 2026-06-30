@@ -11,16 +11,17 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --brand: #6C3EF4;
-      --brand-dark: #4C28CC;
-      --brand-light: #EDE9FE;
-      --brand-mid: #A78BFA;
+      --brand: #0055fb;
+      --brand-dark: #0040C0;
+      --brand-light: #D0E2FA;
+      --brand-mid: #5C9BF5;
+      --brand-rgb: 0,85,251;
       --dark: #0F0A1E;
       --body: #3D3558;
       --muted: #8B86A0;
-      --border: #E8E4F5;
+      --border: #D8E4F5;
       --bg: #FFFFFF;
-      --bg-subtle: #F9F7FF;
+      --bg-subtle: #F5F8FF;
       --success: #10B981;
       --radius: 14px;
       --radius-lg: 24px;
@@ -2347,6 +2348,18 @@
       .logo-product { font-size: 15px; }
       .nav-cta { font-size: 11px; padding: 7px 10px; }
     }
+
+    /* ── FOUC 방지: 하드코딩 보라 → CSS 변수로 초기화 ── */
+    .app-toggle:not(.off) { background: var(--brand) !important; }
+    .app-tab.on { color: var(--brand) !important; border-bottom-color: var(--brand) !important; }
+    .app-add-circle::before, .app-add-circle::after { background: var(--brand) !important; }
+    .app-add-title, .txt-brand, .n1-label { color: var(--brand) !important; }
+    .app-nav.active { background: var(--brand-light) !important; }
+    .app-nav.active .app-nav-text, .app-nav[data-screen]:hover .app-nav-text { color: var(--brand) !important; }
+    .app-card-add:hover { border-color: var(--brand) !important; background: rgba(var(--brand-rgb), 0.06) !important; }
+    .dash-pBtn.on { background: var(--brand) !important; }
+    .badge-sch { color: var(--brand) !important; border-color: var(--brand) !important; background: var(--brand-light) !important; }
+    .return-admin-btn, .save-modal-icon, .save-modal-btn { background: var(--brand) !important; }
   </style>
 </head>
 <body>
