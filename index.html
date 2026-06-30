@@ -822,7 +822,18 @@
     .cart-summary-card { background:#fff; border:1px solid #ddd; padding:12px 13px; flex:1; display:flex; flex-direction:column; }
     .cart-sum-row { display:flex; justify-content:space-between; align-items:center; padding:5px 0; font-size:11px; color:#444; border-bottom:1px solid #eee; }
     .cart-sum-row:last-of-type { border-bottom:none; }
-    .cart-sum-sub-row { display:flex; justify-content:space-between; align-items:center; padding:5px 8px; margin:4px 0; background:#F0EBFF; border-radius:5px; font-size:9.5px; color:#6C3EF4; font-weight:700; }
+    .cart-sum-sub-row { display:flex; justify-content:space-between; align-items:center; padding:7px 10px; margin:5px 0; background:#F0EBFF; border-radius:5px; font-size:12.5px; color:#6C3EF4; font-weight:700; border-left:2px solid #6C3EF4; }
+    @keyframes subRowSlide {
+      0%   { opacity:0; transform:translateY(-6px) scale(0.92); }
+      60%  { opacity:1; transform:translateY(2px) scale(1.04); }
+      100% { opacity:1; transform:translateY(0) scale(1); }
+    }
+    #screen-result-n1 .cart-layout,
+    #screen-result-qty .cart-layout { overflow: visible; }
+    #screen-result-n1.active .cart-sum-sub-row,
+    #screen-result-qty.active .cart-sum-sub-row {
+      animation: subRowSlide 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.3s both;
+    }
     .cart-sum-divider { height:1px; background:#bbb; margin:8px 0 6px; }
     .cart-sum-total-row { display:flex; justify-content:space-between; align-items:center; padding:3px 0; }
     .cart-sum-total-label { font-size:12px; font-weight:700; color:#111; }
@@ -886,7 +897,7 @@
     }
     .pain-icon {
       width: 48px; height: 48px;
-      background: var(--brand-light);
+      background: #F5F5F5;
       border-radius: 12px;
       display: flex; align-items: center; justify-content: center;
       font-size: 22px;
@@ -907,20 +918,26 @@
     .pain-link {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
       font-size: 13px;
       font-weight: 700;
-      color: var(--brand);
+      color: #0055fb;
       margin-top: 16px;
       cursor: pointer;
-      opacity: 0.75;
-      transition: opacity 0.2s, gap 0.2s;
-      border: none;
-      background: none;
-      padding: 0;
+      opacity: 1;
+      background: rgba(0, 85, 251, 0.07);
+      border: 1.5px solid rgba(0, 85, 251, 0.2);
+      padding: 8px 16px;
+      border-radius: 24px;
       font-family: inherit;
+      transition: background 0.2s, border-color 0.2s, gap 0.2s, box-shadow 0.2s;
     }
-    .pain-link:hover { opacity: 1; gap: 8px; }
+    .pain-link:hover {
+      background: rgba(0, 85, 251, 0.13);
+      border-color: rgba(0, 85, 251, 0.4);
+      box-shadow: 0 2px 12px rgba(0, 85, 251, 0.15);
+      gap: 10px;
+    }
 
     /* ── FEATURES ── */
     .features-list { margin-top: 72px; display: flex; flex-direction: column; gap: 80px; }
@@ -1043,6 +1060,7 @@
       color: var(--body);
       line-height: 1.9;
       margin-bottom: 36px;
+      text-align: justify;
     }
     .feature-points { list-style: none; display: flex; flex-direction: column; gap: 16px; }
     .feature-points li {
@@ -1258,14 +1276,17 @@
     .n1-mi-info { flex: 1; min-width: 0; }
     .n1-mi-name { font-size: 12px; font-weight: 600; color: var(--dark); }
     .n1-mi-spec { font-size: 10px; color: var(--muted); margin-top: 1px; }
-    .n1-mi-right { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex-shrink: 0; }
+    .n1-mi-right { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 3px; flex-shrink: 0; }
     .n1-mi-price { font-size: 12px; font-weight: 700; color: var(--dark); }
     .n1-free-tag {
-      background: var(--brand); color: #fff;
+      background: #FF3333; color: #fff;
       font-size: 10px; font-weight: 800; letter-spacing: 0.3px;
       padding: 2px 7px; border-radius: 20px;
       transform: scale(0); opacity: 0;
       transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s ease;
+    }
+    .n1-free-tag:not(.n1-in) {
+      height: 0; overflow: hidden; padding-top: 0; padding-bottom: 0; margin: 0;
     }
     .n1-free-tag.n1-in {
       transform: scale(1); opacity: 1;
@@ -1288,7 +1309,7 @@
     .n1-mock-summary.n1-in { opacity: 1; transform: translateY(0); }
     .n1-sum-row {
       display: flex; justify-content: space-between;
-      font-size: 11px; color: var(--body); padding: 3px 0;
+      font-size: 13px; color: var(--body); padding: 3px 0;
     }
     .n1-sum-discount {
       color: var(--brand); font-weight: 700;
@@ -1304,21 +1325,28 @@
     .n1-sum-discount.n1-in span:last-child  { transform-origin: right center; }
     @keyframes textPop {
       0%   { transform: scale(1); }
-      40%  { transform: scale(1.18); }
-      70%  { transform: scale(0.95); }
+      35%  { transform: scale(1.55); }
+      65%  { transform: scale(0.92); }
+      82%  { transform: scale(1.06); }
       100% { transform: scale(1); }
     }
+    @keyframes subPillIn {
+      0%   { opacity: 0; transform: scale(0.82); }
+      45%  { opacity: 1; transform: scale(1.18); }
+      70%  { transform: scale(0.94); }
+      85%  { transform: scale(1.05); }
+      100% { opacity: 1; transform: scale(1); }
+    }
     .n1-sum-sub {
-      font-size: 10px; color: var(--brand); font-weight: 700;
-      padding: 3px 8px; border-radius: 6px;
+      font-size: 12px; color: var(--brand); font-weight: 700;
+      padding: 4px 8px; border-radius: 6px;
       background: var(--brand-light);
-      margin: 2px 0 4px;
-      opacity: 0; transition: opacity 0.3s ease;
+      margin: 3px 0 4px;
+      opacity: 0;
     }
     .n1-sum-sub.n1-in {
-      opacity: 1;
       transform-origin: left center;
-      animation: textPop 0.7s ease 0.55s both;
+      animation: subPillIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0s both;
     }
     #qtyVisual { position: relative; }
     #qtyPhaseCard { position: relative; z-index: 11; }
@@ -1356,6 +1384,15 @@
       70%  { opacity: 1; transform: translate(-50%, -52%) scale(1.04); }
       100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
     }
+    @keyframes discPop {
+      0%   { opacity: 0; transform: scale(1); }
+      30%  { opacity: 1; transform: scale(0.86); }
+      65%  { transform: scale(1.03); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .qty-result-popup.qty-popup-in .qty-popup-row-disc {
+      animation: discPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+    }
     .qty-result-popup.qty-popup-in .qty-popup-final {
       animation: numPop 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.45s both;
     }
@@ -1371,6 +1408,8 @@
     .qty-popup-row { display: flex; justify-content: space-between; font-size: 11px; color: #8B86A0; margin-bottom: 4px; }
     .qty-popup-orig { text-decoration: line-through; }
     .qty-popup-disc { color: #E53E3E; font-weight: 700; }
+    .qty-popup-row-disc { font-size: 13px; font-weight: 700; color: #E53E3E; }
+    .qty-popup-row-disc .qty-popup-key { color: #E53E3E; font-weight: 700; }
     .qty-popup-divider { border-top: 1px solid #E8E4F5; margin: 8px 0; }
     .qty-popup-total { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: #0F0A1E; }
     .qty-popup-final { font-size: 15px; font-weight: 800; color: #6C3EF4; }
@@ -1885,13 +1924,58 @@
     .rwp-6 { --ps:44px; --po:0.80; bottom:12%; left:22%; --pf:7.8s; --pl:1.8s; --pr: 5deg; }
     .rwp-7 { --ps:28px; --po:0.65; top:55%; left:18%;  --pf:5.2s; --pl:3.0s; --pr:-3deg; }
     .rw .section-inner { position: relative; z-index: 1; }
-    @media (max-width: 768px) {
-      .rw-map { grid-template-columns: 1fr; gap: 20px; padding: 56px 24px; }
-      .rw-map-left { align-items: flex-start; }
-      .rw-map-center { position: static; inset: auto; display: block; pointer-events: auto; text-align: left; padding: 0; order: -1; }
+    /* 태블릿 + 모바일 공통 (≤1400px) */
+    @media (max-width: 1400px) {
+      .rw-map {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 60px clamp(20px, 4vw, 60px);
+        max-width: 680px;
+        margin: 0 auto;
+      }
+      .rw-map-center {
+        position: relative; inset: auto;
+        display: block; pointer-events: auto;
+        text-align: center; padding: 0;
+        order: 1; z-index: 2;
+      }
+      .rw-map-right { order: 2; }
+      .rw-map-left { order: 3; align-items: flex-start; }
+      .rw .section-title { font-size: 52px; letter-spacing: -1.5px; text-align: center; }
+      .rw .section-label { text-align: center; }
+      .rw .section-sub { text-align: center; }
+      .rw-bubble { margin-top: 0 !important; }
       .rw-bubble--right::after, .rw-bubble--left::before { display: none; }
-      .rw-float-tag { margin-right: 0 !important; }
-      .rw-sparkle, .rw-dot, .rw-planet { display: none; }
+      .rw-map-left .rw-badge { align-self: flex-start; }
+      .rw-map-right .rw-badge { order: 2; align-self: center; text-align: center; }
+      .rw-map-right:has(.rw-bubble--hero:hover) .rw-badge { transform: scale(1.05) translateY(10px); }
+    }
+    /* 모바일 추가 조정 (≤768px) */
+    @media (max-width: 768px) {
+      .rw { padding-top: 36px; }
+      .rwp-1 { display: none; }
+      .rwp-5 { display: none; }
+      .rwp-2 { top: 68%; }
+      .rwp-3 { top: auto; bottom: 7%; }
+      .rwp-7 { left: auto; right: 3%; }
+      .rws-1 { top: 62%; }
+      .rws-2 { top: 70%; }
+      .rws-3 { top: 57%; }
+      .rws-4 { top: 65%; }
+      .rw-map { padding: 48px 0; max-width: 100%; gap: 16px; }
+      .rw-map-center { padding: 0; text-align: left !important; width: 100%; }
+      .rw .section-title { text-align: left !important; }
+      .rw .section-label { text-align: left !important; }
+      .rw .section-sub { text-align: left !important; }
+      .rw .section-title { font-size: clamp(28px, 8vw, 40px); letter-spacing: -1px; }
+      .rw .section-sub { font-size: 14px; }
+      .rw-map-right, .rw-map-left { width: 100%; align-items: stretch; }
+      .rw-bubble { padding: 24px 20px !important; width: 100% !important; box-sizing: border-box; }
+      .rw-card-title { font-size: 16px; margin-bottom: 10px; }
+      .rw-text { font-size: 13px; line-height: 1.7; }
+      .rw-float-tag { font-size: 12px; padding: 6px 14px; margin-right: 0 !important; }
+      .rw-badge { font-size: 12px; padding: 6px 12px; white-space: normal; line-height: 1.4; margin: 0 20px; }
     }
     /* ── REVIEW WALL END ── */
 
@@ -2115,6 +2199,9 @@
       .app-card-add .app-add-circle { transform: rotate(90deg) scale(1.25); }
 
       /* ── Features 섹션 모바일 ── */
+      .n1-dot { width: 12px; }
+      .n1-pc-steps { padding-left: 6px; gap: 3px; }
+      .n1-pc-desc { font-size: 12px; }
       .features-list { margin-top: 36px; gap: 44px; }
       .feature-block h3, .feature-content h3 { font-size: 20px; margin-bottom: 16px; }
       .feature-block p, .feature-content p { font-size: 14px; line-height: 1.7; margin-bottom: 24px; }
@@ -2137,7 +2224,7 @@
       .feature-left .feature-tag { display: block; width: fit-content; margin: 0 auto 6px; }
       .feature-left .feature-content h3 { text-align: center; margin-bottom: 0; }
       .feature-visual { display: flex; min-height: 240px; }
-      .n1-visual .n1-mock-item { opacity: 1 !important; transform: none !important; }
+      .n1-visual .n1-mock-item { transition: opacity 0.35s ease, transform 0.35s ease; }
       .feat-panel .feature-body { order: 1; }
       .feature-screenshot { aspect-ratio: 3/2; }
       .preview-n1 { padding: 14px 16px; gap: 2px; }
@@ -2869,16 +2956,16 @@
           <button class="pain-link" data-tab="0">N+1 할인으로 해결하기 →</button>
         </div>
         <div class="pain-card">
-          <div class="pain-icon">⚡</div>
-          <h3>재고가 줄었는데 프로모션을<br/>즉시 수정할 수 없으셨던 적 있으신가요?</h3>
-          <p>할인킷은 재고 상황에 맞게 프로모션 조건을 실시간으로 수정할 수 있습니다. 수정된 정책은 저장 즉시 쇼핑몰에 반영됩니다.</p>
-          <button class="pain-link" data-tab="2">실시간 정책 변경으로 해결하기 →</button>
-        </div>
-        <div class="pain-card">
           <div class="pain-icon">🎯</div>
           <h3>특정 카테고리만 묶어서<br/>할인을 걸고 싶었는데 방법이 없었나요?</h3>
           <p>브랜드·카테고리·상품군 단위로 원하는 상품에만 할인 범위를 정확하게 지정할 수 있습니다. 불필요한 할인 없이 딱 필요한 곳에만 적용하세요.</p>
           <button class="pain-link" data-tab="1">수량 조건부 할인으로 해결하기 →</button>
+        </div>
+        <div class="pain-card">
+          <div class="pain-icon">⚡</div>
+          <h3>재고가 줄었는데 프로모션을<br/>즉시 수정할 수 없으셨던 적 있으신가요?</h3>
+          <p>할인킷은 재고 상황에 맞게 프로모션 조건을 실시간으로 수정할 수 있습니다. 수정된 정책은 저장 즉시 쇼핑몰에 반영됩니다.</p>
+          <button class="pain-link" data-tab="2">실시간 정책 변경으로 해결하기 →</button>
         </div>
       </div>
     </div>
@@ -3094,8 +3181,8 @@
                 <span class="qty-popup-key">정가</span>
                 <span class="qty-popup-orig">70,000원</span>
               </div>
-              <div class="qty-popup-row">
-                <span class="qty-popup-key">10% 할인</span>
+              <div class="qty-popup-row qty-popup-row-disc">
+                <span class="qty-popup-key">5개 이상 구매 10% 할인</span>
                 <span class="qty-popup-disc">-7,000원</span>
               </div>
               <div class="qty-popup-divider"></div>
@@ -3288,7 +3375,7 @@
 
     <div class="rw-map-center">
       <div class="section-label">활용 사례</div>
-      <h2 class="section-title">이런 쇼핑몰에서<br/>활용하고 있어요</h2>
+      <h2 class="section-title">쇼핑몰에서 이렇게<br/>활용하고 있어요</h2>
       <p class="section-sub">업종은 달라도, 프로모션 고민은 비슷했어요.<br/>카페24 쇼핑몰이라면 설치 즉시 해결할 수 있어요.</p>
     </div>
 
@@ -3309,7 +3396,7 @@
 <section class="usecase" style="display:none;">
   <div class="section-inner">
     <div class="section-label">활용 사례</div>
-    <h2 class="section-title">이런 쇼핑몰에서<br/>활용하고 있어요</h2>
+    <h2 class="section-title">쇼핑몰에서 이렇게<br/>활용하고 있어요</h2>
     <p class="section-sub">업종은 달라도, 프로모션 고민은 비슷했어요.<br/>카페24 쇼핑몰이라면 설치 즉시 해결할 수 있어요.</p>
 
     <div class="usecase-grid">
@@ -3440,7 +3527,7 @@
       </li>
       <li class="faq-item">
         <button class="faq-btn">
-          <span class="faq-q">멀티배송 서비스와 함께 사용할 수 있나요?</span>
+          <span class="faq-q">셀킷의 다른 앱과 함께 사용할 수 있나요?</span>
           <span class="faq-toggle">+</span>
         </button>
         <div class="faq-a">네, 가능합니다. 예를 들어 N+1 이벤트 상품을 여러 배송지에 한 번에 발송해야 하는 경우, 할인킷과 셀킷 멀티배송을 함께 사용하면 더욱 편리합니다.</div>
@@ -3867,6 +3954,12 @@
     const appBody = document.querySelector('.app-body');
     var isResult = screenId === 'screen-result-n1' || screenId === 'screen-result-qty';
     if (appBody) appBody.classList.toggle('result-mode', isResult);
+    if (isResult) {
+      setTimeout(function() {
+        var subRow = document.querySelector('#' + screenId + ' .cart-sum-sub-row');
+        if (subRow) { subRow.style.animation = 'none'; subRow.offsetHeight; subRow.style.animation = ''; }
+      }, 50);
+    }
     const returnBtn = document.getElementById('returnAdminBtn');
     if (returnBtn) returnBtn.classList.toggle('visible', isResult);
     if (screenId === 'screen-create') {
@@ -4433,8 +4526,8 @@ document.querySelectorAll('.pain-link').forEach(function(btn) {
 <div id="devColorPanel">
   <div class="dev-panel-label" id="devPanelToggle">컬러 프리뷰 <span class="dev-panel-arrow">▾</span></div>
   <div class="dev-chips">
-    <button class="dev-chip dev-active" data-brand="#6C3EF4" data-light="#EDE9FA" style="background:#6C3EF4;" title="보라"></button>
-    <button class="dev-chip"            data-brand="#3B78F0" data-light="#D0E2FA" style="background:#3B78F0;" title="딥블루"></button>
+    <button class="dev-chip"            data-brand="#6C3EF4" data-light="#EDE9FA" style="background:#6C3EF4;" title="보라"></button>
+    <button class="dev-chip dev-active" data-brand="#0055fb" data-light="#D0E2FA" style="background:#0055fb;" title="딥블루"></button>
   </div>
 </div>
 
@@ -4443,8 +4536,8 @@ document.querySelectorAll('.pain-link').forEach(function(btn) {
   var chips = document.querySelectorAll('.dev-chip');
   var comboStyleEl = null;
   var overrideStyleEl = null;
-  var lockedBrand = '#6C3EF4';
-  var lockedLight = '#EDE9FA';
+  var lockedBrand = '#0055fb';
+  var lockedLight = '#D0E2FA';
   var lockedCombo = false;
 
   // 컬러별 톤앤매너 팔레트 (mid=연한 테두리, dark=호버용 어두운 색)
@@ -4452,7 +4545,7 @@ document.querySelectorAll('.pain-link').forEach(function(btn) {
     '#6C3EF4': { bg:'#F9F7FF', bar:'#1C1530', url:'#2A2040', body:'#EEEEF6', prog:'#F0F0F8', navActive:'#EDE9FE', navHover:'#F3F0FE', mid:'#A78BFA', dark:'#4C28CC' },
     '#EC0B65': { bg:'#FFF5F9', bar:'#2A0A16', url:'#3D1025', body:'#F5E8EE', prog:'#F0DFE7', navActive:'#FCDAEB', navHover:'#FCEDF5', mid:'#F48BB0', dark:'#C0084F' },
     '#36B4F1': { bg:'#F0F9FF', bar:'#08192A', url:'#0C2840', body:'#E4F1F9', prog:'#D8EBF5', navActive:'#CCE7F7', navHover:'#DFF1FB', mid:'#82CBF0', dark:'#1A90CF' },
-    '#3B78F0': { bg:'#EEF4FF', bar:'#080F28', url:'#0C183E', body:'#DCE8F8', prog:'#CAD9F5', navActive:'#C0D4F5', navHover:'#D2E2FA', mid:'#78A8F4', dark:'#1E55CC' },
+    '#0055fb': { bg:'#FAFAFA', bar:'#080F28', url:'#0C183E', body:'#F6F6F8', prog:'#EDEDF0', navActive:'#F0F0F3', navHover:'#F7F7F9', mid:'#5599FF', dark:'#0044CC', cardBg:'#EEF4FF', cardBgHover:'#DDE9FF', landingBg:'#F0F5FF' },
     '#FFB362': { bg:'#FFFAF5', bar:'#28190A', url:'#3D260C', body:'#F7EEDD', prog:'#F0E4CC', navActive:'#FFE8CC', navHover:'#FFF3E5', mid:'#FFCC99', dark:'#E8922A' },
   };
 
@@ -4478,7 +4571,7 @@ document.querySelectorAll('.pain-link').forEach(function(btn) {
     function ra(a) { return 'rgba('+rgb+','+a+')'; }
     return [
       // CSS 변수 업데이트
-      ':root{--bg-subtle:'+pal.bg+';--brand-mid:'+pal.mid+'}',
+      ':root{' + (pal.landingBg ? '--bg-subtle:'+pal.landingBg+';' : '') + '--brand-mid:'+pal.mid+'}',
       // 앱 프리뷰 배경 (타이틀바·URL바·본문·진행바)
       '.app-bar{background:'+pal.bar+'!important}',
       '.app-url{background:'+pal.url+'!important}',
@@ -4491,8 +4584,8 @@ document.querySelectorAll('.pain-link').forEach(function(btn) {
       // 히어로 힌트 레이블 (떠다니는 pill)
       '.hero-preview-hint{background:'+ra(0.08)+'!important;border-color:'+ra(0.22)+'!important}',
       // 새 프로모션 카드 기본 bg·dashed border
-      '.app-card-add{background:'+ra(0.03)+'!important;border-color:'+pal.mid+'!important}',
-      '.app-card-add:hover{border-color:'+c+'!important;background:'+ra(0.06)+'!important}',
+      '.app-card-add{background:'+(pal.cardBg||ra(0.03))+'!important;border-color:'+pal.mid+'!important}',
+      '.app-card-add:hover{border-color:'+c+'!important;background:'+(pal.cardBgHover||ra(0.06))+'!important}',
       // + 원형 아이콘 border
       '.app-add-circle{border-color:'+pal.mid+'!important}',
       // 상품 추가 + 원
@@ -4500,7 +4593,7 @@ document.querySelectorAll('.pain-link').forEach(function(btn) {
       // create-tag 배경
       '.create-tag{background:'+ra(0.08)+'!important}',
       // create-option 선택 배경
-      '.create-option.selected{background:'+ra(0.03)+'!important}',
+      '.create-option.selected{background:'+(pal.cardBg||ra(0.03))+'!important}',
       // 토글 (기본값이 on 상태 — .off 클래스가 없으면 on)
       '.app-toggle:not(.off){background:'+c+'!important}',
       // 배경: 버튼·숫자칩·의사요소
@@ -4745,7 +4838,7 @@ document.querySelectorAll('.pain-link').forEach(function(btn) {
   document.getElementById('devPanelToggle').addEventListener('click', function() {
     document.getElementById('devColorPanel').classList.toggle('dev-collapsed');
   });
-  applyColor('#6C3EF4', '#EDE9FA', false);
+  applyColor('#0055fb', '#D0E2FA', false);
 
 })();
 </script>
